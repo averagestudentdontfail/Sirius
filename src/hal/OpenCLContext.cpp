@@ -1,55 +1,72 @@
-#include "OpenCLContext.hpp"
-#include <iostream>
-#include <stdexcept>
+#include "ImGuiLayer.hpp"
+#include "core/Window.hpp"
 
-namespace Sirius::HAL {
+#include <imgui.h>
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
+#include <GLFW/glfw3.h>
 
-OpenCLContext::OpenCLContext() {
-    try {
-        SelectPlatformAndDevice();
-        m_Context = cl::Context(m_Device);
-        m_Queue = cl::CommandQueue(m_Context, m_Device);
-    } catch (const cl::Error& err) {
-        std::cerr << "OpenCL Error: " << err.what() << " (" << err.err() << ")" << std::endl;
-        throw std::runtime_error("Failed to initialize OpenCL Context.");
+namespace Sirius::UI {
+
+ImGuiLayer::ImGuiLayer() {}
+ImGuiLayer::~ImGuiLayer() {}
+
+void ImGuiLayer::OnAttach(Sirius::Window* window) {
+    m_Window = window;
+
+    // Setup Dear ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    
+    // Enable docking and viewports
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
+
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+    
+    // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+    ImGuiStyle& style = ImGui::GetStyle();
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+        style.WindowRounding = 0.0f;
+        style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+    }
+
+    // Setup Platform/Renderer backends
+    // Use OpenGL 4.6 version string to match the context
+    ImGui_ImplGlfw_InitForOpenGL(window->GetNativeWindow(), true);
+    ImGui_ImplOpenGL3_Init("#version 460");
+}
+
+void ImGuiLayer::OnDetach() {
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+}
+
+void ImGuiLayer::Begin() {
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+}
+
+void ImGuiLayer::End() {
+    ImGuiIO& io = ImGui::GetIO();
+    io.DisplaySize = ImVec2((float)m_Window->GetWidth(), (float)m_Window->GetHeight());
+
+    // Rendering
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    // Update and Render additional Platform Windows
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+        GLFWwindow* backup_current_context = glfwGetCurrentContext();
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+        glfwMakeContextCurrent(backup_current_context);
     }
 }
 
-void OpenCLContext::SelectPlatformAndDevice() {
-    std::vector<cl::Platform> platforms;
-    cl::Platform::get(&platforms);
-
-    if (platforms.empty()) {
-        throw std::runtime_error("No OpenCL platforms found.");
-    }
-
-    // Heuristic: Prefer platforms with GPU devices
-    for (const auto& p : platforms) {
-        std::vector<cl::Device> devices;
-        p.getDevices(CL_DEVICE_TYPE_GPU, &devices);
-        if (!devices.empty()) {
-            m_Platform = p;
-            m_Device = devices[0]; // Select the first GPU
-            return;
-        }
-    }
-
-    // Fallback to any device if no GPU is found
-    m_Platform = platforms[0];
-    std::vector<cl::Device> allDevices;
-    m_Platform.getDevices(CL_DEVICE_TYPE_ALL, &allDevices);
-    if(allDevices.empty()){
-        throw std::runtime_error("No OpenCL devices found on the selected platform.");
-    }
-    m_Device = allDevices[0];
-}
-
-void OpenCLContext::PrintInfo() const {
-    std::cout << "--- OpenCL Information ---" << std::endl;
-    std::cout << "Platform: " << m_Platform.getInfo<CL_PLATFORM_NAME>() << std::endl;
-    std::cout << "Device:   " << m_Device.getInfo<CL_DEVICE_NAME>() << std::endl;
-    std::cout << "Version:  " << m_Device.getInfo<CL_DEVICE_VERSION>() << std::endl;
-    std::cout << "--------------------------" << std::endl;
-}
-
-} // namespace Sirius::HAL
+} // namespace Sirius::UI

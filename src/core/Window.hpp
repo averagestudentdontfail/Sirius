@@ -23,7 +23,7 @@ public:
 private:
     void Init();
 
-    GLFWwindow* m_Window;
+    GLFWwindow* m_Window = nullptr;  // Initialize to nullptr for safety
     int m_Width;
     int m_Height;
     std::string m_Title;

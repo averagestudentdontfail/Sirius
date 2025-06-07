@@ -41,10 +41,17 @@ file(MAKE_DIRECTORY ${GLAD_DIR})
 
 # Create and use Python virtual environment for glad
 set(VENV_DIR ${CMAKE_CURRENT_BINARY_DIR}/venv)
-set(VENV_PYTHON ${VENV_DIR}/bin/python3)
-set(VENV_PIP ${VENV_DIR}/bin/pip)
 
-# Generate glad files
+# Determine the correct Python and pip paths based on platform
+if(WIN32)
+    set(VENV_PYTHON ${VENV_DIR}/Scripts/python.exe)
+    set(VENV_PIP ${VENV_DIR}/Scripts/pip.exe)
+else()
+    set(VENV_PYTHON ${VENV_DIR}/bin/python3)
+    set(VENV_PIP ${VENV_DIR}/bin/pip)
+endif()
+
+# Generate glad files - only when they don't exist
 add_custom_command(
   OUTPUT
     ${GLAD_DIR}/src/glad.c
@@ -60,6 +67,7 @@ add_custom_command(
 # Create glad library
 add_library(glad STATIC ${GLAD_DIR}/src/glad.c)
 target_include_directories(glad PUBLIC ${GLAD_DIR}/include)
+add_dependencies(glad ${GLAD_DIR}/src/glad.c)
 
 # Create ImGui library with all necessary files
 add_library(imgui STATIC
