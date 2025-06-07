@@ -1,0 +1,3 @@
+/home/send2/.projects/Sirius/build/_deps/glad-subbuild/CMakeFiles/glad-populate.dir
+/home/send2/.projects/Sirius/build/_deps/glad-subbuild/CMakeFiles/edit_cache.dir
+/home/send2/.projects/Sirius/build/_deps/glad-subbuild/CMakeFiles/rebuild_cache.dir
