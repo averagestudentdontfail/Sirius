@@ -141,8 +141,10 @@ Sirius: CMakeFiles/Sirius.dir/src/hal/OpenCLContext.cpp.o
 Sirius: CMakeFiles/Sirius.dir/src/ui/ImGuiLayer.cpp.o
 Sirius: CMakeFiles/Sirius.dir/build.make
 Sirius: _deps/glfw-build/src/libglfw3.a
+Sirius: libimgui.a
 Sirius: libglad.a
 Sirius: /usr/lib/x86_64-linux-gnu/libOpenCL.so
+Sirius: _deps/glfw-build/src/libglfw3.a
 Sirius: /usr/lib/x86_64-linux-gnu/librt.a
 Sirius: /usr/lib/x86_64-linux-gnu/libm.so
 Sirius: /usr/lib/x86_64-linux-gnu/libX11.so

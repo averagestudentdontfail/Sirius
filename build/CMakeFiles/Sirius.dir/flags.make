@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DIMGUI_ENABLE_DOCKING -DIMGUI_IMPL_OPENGL_LOADER_GLAD
 
-CXX_INCLUDES = -I/home/send2/.projects/Sirius/src -I/home/send2/.projects/Sirius/build/_deps/glfw-src/include -I/home/send2/.projects/Sirius/build/_deps/glm-src -I/home/send2/.projects/Sirius/build/_deps/imgui-src -I"/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.8/include" -I/home/send2/.projects/Sirius/build/glad/include
+CXX_INCLUDES = -I/home/send2/.projects/Sirius/src -I/home/send2/.projects/Sirius/build/_deps/glfw-src/include -I/home/send2/.projects/Sirius/build/_deps/glm-src -I/home/send2/.projects/Sirius/build/_deps/imgui-src -I/home/send2/.projects/Sirius/build/_deps/imgui-src/backends -I"/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.8/include" -I/home/send2/.projects/Sirius/build/glad/include
 
 CXX_FLAGS = -std=c++17
 

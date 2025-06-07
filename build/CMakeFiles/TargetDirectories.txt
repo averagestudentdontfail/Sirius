@@ -1,4 +1,5 @@
 /home/send2/.projects/Sirius/build/CMakeFiles/glad.dir
+/home/send2/.projects/Sirius/build/CMakeFiles/imgui.dir
 /home/send2/.projects/Sirius/build/CMakeFiles/Sirius.dir
 /home/send2/.projects/Sirius/build/CMakeFiles/edit_cache.dir
 /home/send2/.projects/Sirius/build/CMakeFiles/rebuild_cache.dir

@@ -24,11 +24,11 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(glm)
 
-# ImGui for UI
+# ImGui for UI - use docking branch
 FetchContent_Declare(
   imgui
   GIT_REPOSITORY https://github.com/ocornut/imgui.git
-  GIT_TAG        v1.90.1
+  GIT_TAG        docking
 )
 FetchContent_MakeAvailable(imgui)
 
@@ -67,7 +67,6 @@ add_custom_command(
 # Create glad library
 add_library(glad STATIC ${GLAD_DIR}/src/glad.c)
 target_include_directories(glad PUBLIC ${GLAD_DIR}/include)
-add_dependencies(glad ${GLAD_DIR}/src/glad.c)
 
 # Create ImGui library with all necessary files
 add_library(imgui STATIC
@@ -88,10 +87,11 @@ target_include_directories(imgui PUBLIC
 
 target_link_libraries(imgui PUBLIC glfw)
 
-# Define ImGui features
+# Define ImGui features - make sure these are PUBLIC so they propagate
 target_compile_definitions(imgui PUBLIC
     IMGUI_IMPL_OPENGL_LOADER_GLAD
     IMGUI_ENABLE_DOCKING
+    IMGUI_ENABLE_VIEWPORTS
 )
 
 # OpenCL
@@ -138,8 +138,9 @@ else()
     target_link_libraries(Sirius PRIVATE OpenGL::GL)
 endif()
 
-# Define for executable
+# Define for executable - ensure docking is enabled
 target_compile_definitions(Sirius PRIVATE
   IMGUI_IMPL_OPENGL_LOADER_GLAD
   IMGUI_ENABLE_DOCKING
+  IMGUI_ENABLE_VIEWPORTS
 )

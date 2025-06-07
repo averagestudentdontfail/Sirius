@@ -64,6 +64,7 @@ CMAKE_BINARY_DIR = /home/send2/.projects/Sirius/build
 
 # The main recursive "all" target.
 all: CMakeFiles/glad.dir/all
+all: CMakeFiles/imgui.dir/all
 all: CMakeFiles/Sirius.dir/all
 all: _deps/glfw-build/all
 all: _deps/glm-build/all
@@ -76,6 +77,7 @@ preinstall: _deps/glm-build/preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/glad.dir/clean
+clean: CMakeFiles/imgui.dir/clean
 clean: CMakeFiles/Sirius.dir/clean
 clean: _deps/glfw-build/clean
 clean: _deps/glm-build/clean
@@ -258,7 +260,7 @@ _deps/glm-build/glm/clean:
 CMakeFiles/glad.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=24,25 "Built target glad"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=23,24 "Built target glad"
 .PHONY : CMakeFiles/glad.dir/all
 
 # Build rule for subdir invocation for target.
@@ -278,10 +280,37 @@ CMakeFiles/glad.dir/clean:
 .PHONY : CMakeFiles/glad.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/imgui.dir
+
+# All Build rule for target.
+CMakeFiles/imgui.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/imgui.dir/build.make CMakeFiles/imgui.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/imgui.dir/build.make CMakeFiles/imgui.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=49,50,51,52,53,54 "Built target imgui"
+.PHONY : CMakeFiles/imgui.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/imgui.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 19
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/imgui.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
+.PHONY : CMakeFiles/imgui.dir/rule
+
+# Convenience name for target.
+imgui: CMakeFiles/imgui.dir/rule
+.PHONY : imgui
+
+# clean rule for target.
+CMakeFiles/imgui.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/imgui.dir/build.make CMakeFiles/imgui.dir/clean
+.PHONY : CMakeFiles/imgui.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/Sirius.dir
 
 # All Build rule for target.
 CMakeFiles/Sirius.dir/all: CMakeFiles/glad.dir/all
+CMakeFiles/Sirius.dir/all: CMakeFiles/imgui.dir/all
 CMakeFiles/Sirius.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Sirius.dir/build.make CMakeFiles/Sirius.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Sirius.dir/build.make CMakeFiles/Sirius.dir/build
@@ -290,7 +319,7 @@ CMakeFiles/Sirius.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Sirius.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 19
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 24
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Sirius.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : CMakeFiles/Sirius.dir/rule
@@ -337,12 +366,12 @@ _deps/glfw-build/CMakeFiles/uninstall.dir/clean:
 _deps/glfw-build/src/CMakeFiles/update_mappings.dir/all:
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/src/CMakeFiles/update_mappings.dir/build.make _deps/glfw-build/src/CMakeFiles/update_mappings.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/src/CMakeFiles/update_mappings.dir/build.make _deps/glfw-build/src/CMakeFiles/update_mappings.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=94 "Built target update_mappings"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num= "Built target update_mappings"
 .PHONY : _deps/glfw-build/src/CMakeFiles/update_mappings.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/src/CMakeFiles/update_mappings.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/src/CMakeFiles/update_mappings.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/src/CMakeFiles/update_mappings.dir/rule
@@ -363,12 +392,12 @@ _deps/glfw-build/src/CMakeFiles/update_mappings.dir/clean:
 _deps/glfw-build/src/CMakeFiles/glfw.dir/all:
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/src/CMakeFiles/glfw.dir/build.make _deps/glfw-build/src/CMakeFiles/glfw.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/src/CMakeFiles/glfw.dir/build.make _deps/glfw-build/src/CMakeFiles/glfw.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=26,27,28,29,30,31,32,33,34,35,36,37,38,39 "Built target glfw"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=25,26,27,28,29,30,31,32,33,34,35,36,37 "Built target glfw"
 .PHONY : _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/src/CMakeFiles/glfw.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 13
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/src/CMakeFiles/glfw.dir/rule
@@ -389,12 +418,12 @@ _deps/glfw-build/src/CMakeFiles/glfw.dir/clean:
 _deps/glfw-build/examples/CMakeFiles/boing.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/boing.dir/build.make _deps/glfw-build/examples/CMakeFiles/boing.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/boing.dir/build.make _deps/glfw-build/examples/CMakeFiles/boing.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=4,5,6 "Built target boing"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=4,5 "Built target boing"
 .PHONY : _deps/glfw-build/examples/CMakeFiles/boing.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/examples/CMakeFiles/boing.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/examples/CMakeFiles/boing.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/examples/CMakeFiles/boing.dir/rule
@@ -415,12 +444,12 @@ _deps/glfw-build/examples/CMakeFiles/boing.dir/clean:
 _deps/glfw-build/examples/CMakeFiles/gears.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/gears.dir/build.make _deps/glfw-build/examples/CMakeFiles/gears.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/gears.dir/build.make _deps/glfw-build/examples/CMakeFiles/gears.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=22,23 "Built target gears"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=21,22 "Built target gears"
 .PHONY : _deps/glfw-build/examples/CMakeFiles/gears.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/examples/CMakeFiles/gears.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/examples/CMakeFiles/gears.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/examples/CMakeFiles/gears.dir/rule
@@ -441,12 +470,12 @@ _deps/glfw-build/examples/CMakeFiles/gears.dir/clean:
 _deps/glfw-build/examples/CMakeFiles/heightmap.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/heightmap.dir/build.make _deps/glfw-build/examples/CMakeFiles/heightmap.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/heightmap.dir/build.make _deps/glfw-build/examples/CMakeFiles/heightmap.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=44,45 "Built target heightmap"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=41,42 "Built target heightmap"
 .PHONY : _deps/glfw-build/examples/CMakeFiles/heightmap.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/examples/CMakeFiles/heightmap.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/examples/CMakeFiles/heightmap.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/examples/CMakeFiles/heightmap.dir/rule
@@ -467,12 +496,12 @@ _deps/glfw-build/examples/CMakeFiles/heightmap.dir/clean:
 _deps/glfw-build/examples/CMakeFiles/offscreen.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/offscreen.dir/build.make _deps/glfw-build/examples/CMakeFiles/offscreen.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/offscreen.dir/build.make _deps/glfw-build/examples/CMakeFiles/offscreen.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=63,64,65 "Built target offscreen"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=66,67 "Built target offscreen"
 .PHONY : _deps/glfw-build/examples/CMakeFiles/offscreen.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/examples/CMakeFiles/offscreen.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/examples/CMakeFiles/offscreen.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/examples/CMakeFiles/offscreen.dir/rule
@@ -493,12 +522,12 @@ _deps/glfw-build/examples/CMakeFiles/offscreen.dir/clean:
 _deps/glfw-build/examples/CMakeFiles/particles.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/particles.dir/build.make _deps/glfw-build/examples/CMakeFiles/particles.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/particles.dir/build.make _deps/glfw-build/examples/CMakeFiles/particles.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=68,69,70,71 "Built target particles"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=70,71,72,73 "Built target particles"
 .PHONY : _deps/glfw-build/examples/CMakeFiles/particles.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/examples/CMakeFiles/particles.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 18
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 17
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/examples/CMakeFiles/particles.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/examples/CMakeFiles/particles.dir/rule
@@ -519,12 +548,12 @@ _deps/glfw-build/examples/CMakeFiles/particles.dir/clean:
 _deps/glfw-build/examples/CMakeFiles/sharing.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/sharing.dir/build.make _deps/glfw-build/examples/CMakeFiles/sharing.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/sharing.dir/build.make _deps/glfw-build/examples/CMakeFiles/sharing.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=75,76 "Built target sharing"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=76,77 "Built target sharing"
 .PHONY : _deps/glfw-build/examples/CMakeFiles/sharing.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/examples/CMakeFiles/sharing.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/examples/CMakeFiles/sharing.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/examples/CMakeFiles/sharing.dir/rule
@@ -545,7 +574,7 @@ _deps/glfw-build/examples/CMakeFiles/sharing.dir/clean:
 _deps/glfw-build/examples/CMakeFiles/simple.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/simple.dir/build.make _deps/glfw-build/examples/CMakeFiles/simple.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/simple.dir/build.make _deps/glfw-build/examples/CMakeFiles/simple.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=77,78 "Built target simple"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=78,79,80 "Built target simple"
 .PHONY : _deps/glfw-build/examples/CMakeFiles/simple.dir/all
 
 # Build rule for subdir invocation for target.
@@ -571,12 +600,12 @@ _deps/glfw-build/examples/CMakeFiles/simple.dir/clean:
 _deps/glfw-build/examples/CMakeFiles/splitview.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/splitview.dir/build.make _deps/glfw-build/examples/CMakeFiles/splitview.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/splitview.dir/build.make _deps/glfw-build/examples/CMakeFiles/splitview.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=79,80,81 "Built target splitview"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=81,82 "Built target splitview"
 .PHONY : _deps/glfw-build/examples/CMakeFiles/splitview.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/examples/CMakeFiles/splitview.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/examples/CMakeFiles/splitview.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/examples/CMakeFiles/splitview.dir/rule
@@ -597,7 +626,7 @@ _deps/glfw-build/examples/CMakeFiles/splitview.dir/clean:
 _deps/glfw-build/examples/CMakeFiles/wave.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/wave.dir/build.make _deps/glfw-build/examples/CMakeFiles/wave.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/examples/CMakeFiles/wave.dir/build.make _deps/glfw-build/examples/CMakeFiles/wave.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=95,96 "Built target wave"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=95,96,97 "Built target wave"
 .PHONY : _deps/glfw-build/examples/CMakeFiles/wave.dir/all
 
 # Build rule for subdir invocation for target.
@@ -623,12 +652,12 @@ _deps/glfw-build/examples/CMakeFiles/wave.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/clipboard.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/clipboard.dir/build.make _deps/glfw-build/tests/CMakeFiles/clipboard.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/clipboard.dir/build.make _deps/glfw-build/tests/CMakeFiles/clipboard.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=7,8,9 "Built target clipboard"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=6,7,8 "Built target clipboard"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/clipboard.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/clipboard.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/clipboard.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/clipboard.dir/rule
@@ -649,12 +678,12 @@ _deps/glfw-build/tests/CMakeFiles/clipboard.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/events.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/events.dir/build.make _deps/glfw-build/tests/CMakeFiles/events.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/events.dir/build.make _deps/glfw-build/tests/CMakeFiles/events.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=16,17,18 "Built target events"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=15,16,17 "Built target events"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/events.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/events.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/events.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/events.dir/rule
@@ -675,12 +704,12 @@ _deps/glfw-build/tests/CMakeFiles/events.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/msaa.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/msaa.dir/build.make _deps/glfw-build/tests/CMakeFiles/msaa.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/msaa.dir/build.make _deps/glfw-build/tests/CMakeFiles/msaa.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=60,61,62 "Built target msaa"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=63,64,65 "Built target msaa"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/msaa.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/msaa.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/msaa.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/msaa.dir/rule
@@ -701,12 +730,12 @@ _deps/glfw-build/tests/CMakeFiles/msaa.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/glfwinfo.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/glfwinfo.dir/build.make _deps/glfw-build/tests/CMakeFiles/glfwinfo.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/glfwinfo.dir/build.make _deps/glfw-build/tests/CMakeFiles/glfwinfo.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=40,41,42,43 "Built target glfwinfo"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=38,39,40 "Built target glfwinfo"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/glfwinfo.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/glfwinfo.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 18
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/glfwinfo.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/glfwinfo.dir/rule
@@ -727,12 +756,12 @@ _deps/glfw-build/tests/CMakeFiles/glfwinfo.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/iconify.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/iconify.dir/build.make _deps/glfw-build/tests/CMakeFiles/iconify.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/iconify.dir/build.make _deps/glfw-build/tests/CMakeFiles/iconify.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=49,50,51 "Built target iconify"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=46,47,48 "Built target iconify"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/iconify.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/iconify.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/iconify.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/iconify.dir/rule
@@ -753,12 +782,12 @@ _deps/glfw-build/tests/CMakeFiles/iconify.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/monitors.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/monitors.dir/build.make _deps/glfw-build/tests/CMakeFiles/monitors.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/monitors.dir/build.make _deps/glfw-build/tests/CMakeFiles/monitors.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=57,58,59 "Built target monitors"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=60,61,62 "Built target monitors"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/monitors.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/monitors.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/monitors.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/monitors.dir/rule
@@ -779,12 +808,12 @@ _deps/glfw-build/tests/CMakeFiles/monitors.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/reopen.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/reopen.dir/build.make _deps/glfw-build/tests/CMakeFiles/reopen.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/reopen.dir/build.make _deps/glfw-build/tests/CMakeFiles/reopen.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=72,73,74 "Built target reopen"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=74,75 "Built target reopen"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/reopen.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/reopen.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/reopen.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/reopen.dir/rule
@@ -805,7 +834,7 @@ _deps/glfw-build/tests/CMakeFiles/reopen.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/cursor.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/cursor.dir/build.make _deps/glfw-build/tests/CMakeFiles/cursor.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/cursor.dir/build.make _deps/glfw-build/tests/CMakeFiles/cursor.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=10,11 "Built target cursor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=9,10,11 "Built target cursor"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/cursor.dir/all
 
 # Build rule for subdir invocation for target.
@@ -831,12 +860,12 @@ _deps/glfw-build/tests/CMakeFiles/cursor.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/empty.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/empty.dir/build.make _deps/glfw-build/tests/CMakeFiles/empty.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/empty.dir/build.make _deps/glfw-build/tests/CMakeFiles/empty.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=13,14,15 "Built target empty"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=12,13,14 "Built target empty"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/empty.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/empty.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/empty.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/empty.dir/rule
@@ -857,12 +886,12 @@ _deps/glfw-build/tests/CMakeFiles/empty.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/gamma.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/gamma.dir/build.make _deps/glfw-build/tests/CMakeFiles/gamma.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/gamma.dir/build.make _deps/glfw-build/tests/CMakeFiles/gamma.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=19,20,21 "Built target gamma"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=18,19,20 "Built target gamma"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/gamma.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/gamma.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/gamma.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/gamma.dir/rule
@@ -883,12 +912,12 @@ _deps/glfw-build/tests/CMakeFiles/gamma.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/icon.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/icon.dir/build.make _deps/glfw-build/tests/CMakeFiles/icon.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/icon.dir/build.make _deps/glfw-build/tests/CMakeFiles/icon.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=46,47,48 "Built target icon"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=43,44,45 "Built target icon"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/icon.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/icon.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/icon.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/icon.dir/rule
@@ -909,12 +938,12 @@ _deps/glfw-build/tests/CMakeFiles/icon.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/inputlag.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/inputlag.dir/build.make _deps/glfw-build/tests/CMakeFiles/inputlag.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/inputlag.dir/build.make _deps/glfw-build/tests/CMakeFiles/inputlag.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=52,53,54 "Built target inputlag"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=55,56,57 "Built target inputlag"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/inputlag.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/inputlag.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/inputlag.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/inputlag.dir/rule
@@ -935,12 +964,12 @@ _deps/glfw-build/tests/CMakeFiles/inputlag.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/joysticks.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/joysticks.dir/build.make _deps/glfw-build/tests/CMakeFiles/joysticks.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/joysticks.dir/build.make _deps/glfw-build/tests/CMakeFiles/joysticks.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=55,56 "Built target joysticks"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=58,59 "Built target joysticks"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/joysticks.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/joysticks.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/joysticks.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/joysticks.dir/rule
@@ -961,12 +990,12 @@ _deps/glfw-build/tests/CMakeFiles/joysticks.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/opacity.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/opacity.dir/build.make _deps/glfw-build/tests/CMakeFiles/opacity.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/opacity.dir/build.make _deps/glfw-build/tests/CMakeFiles/opacity.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=66,67 "Built target opacity"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=68,69 "Built target opacity"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/opacity.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/opacity.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/opacity.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/opacity.dir/rule
@@ -987,12 +1016,12 @@ _deps/glfw-build/tests/CMakeFiles/opacity.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/tearing.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/tearing.dir/build.make _deps/glfw-build/tests/CMakeFiles/tearing.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/tearing.dir/build.make _deps/glfw-build/tests/CMakeFiles/tearing.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=82,83 "Built target tearing"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=83,84 "Built target tearing"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/tearing.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/tearing.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/tearing.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/tearing.dir/rule
@@ -1013,12 +1042,12 @@ _deps/glfw-build/tests/CMakeFiles/tearing.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/threads.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/threads.dir/build.make _deps/glfw-build/tests/CMakeFiles/threads.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/threads.dir/build.make _deps/glfw-build/tests/CMakeFiles/threads.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=84,85,86 "Built target threads"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=85,86,87 "Built target threads"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/threads.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/threads.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/threads.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/threads.dir/rule
@@ -1039,12 +1068,12 @@ _deps/glfw-build/tests/CMakeFiles/threads.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/timeout.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/timeout.dir/build.make _deps/glfw-build/tests/CMakeFiles/timeout.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/timeout.dir/build.make _deps/glfw-build/tests/CMakeFiles/timeout.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=87,88 "Built target timeout"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=88,89 "Built target timeout"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/timeout.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/timeout.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/timeout.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/timeout.dir/rule
@@ -1065,12 +1094,12 @@ _deps/glfw-build/tests/CMakeFiles/timeout.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/title.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/title.dir/build.make _deps/glfw-build/tests/CMakeFiles/title.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/title.dir/build.make _deps/glfw-build/tests/CMakeFiles/title.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=89,90,91 "Built target title"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=90,91 "Built target title"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/title.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/title.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/title.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/title.dir/rule
@@ -1091,7 +1120,7 @@ _deps/glfw-build/tests/CMakeFiles/title.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/triangle-vulkan.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/triangle-vulkan.dir/build.make _deps/glfw-build/tests/CMakeFiles/triangle-vulkan.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/triangle-vulkan.dir/build.make _deps/glfw-build/tests/CMakeFiles/triangle-vulkan.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=92,93 "Built target triangle-vulkan"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=92,93,94 "Built target triangle-vulkan"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/triangle-vulkan.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1117,12 +1146,12 @@ _deps/glfw-build/tests/CMakeFiles/triangle-vulkan.dir/clean:
 _deps/glfw-build/tests/CMakeFiles/windows.dir/all: _deps/glfw-build/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/windows.dir/build.make _deps/glfw-build/tests/CMakeFiles/windows.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/tests/CMakeFiles/windows.dir/build.make _deps/glfw-build/tests/CMakeFiles/windows.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=97,98,99,100 "Built target windows"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=98,99,100 "Built target windows"
 .PHONY : _deps/glfw-build/tests/CMakeFiles/windows.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/tests/CMakeFiles/windows.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 18
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/tests/CMakeFiles/windows.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/tests/CMakeFiles/windows.dir/rule
@@ -1143,12 +1172,12 @@ _deps/glfw-build/tests/CMakeFiles/windows.dir/clean:
 _deps/glfw-build/docs/CMakeFiles/docs.dir/all:
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/docs/CMakeFiles/docs.dir/build.make _deps/glfw-build/docs/CMakeFiles/docs.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/glfw-build/docs/CMakeFiles/docs.dir/build.make _deps/glfw-build/docs/CMakeFiles/docs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num=12 "Built target docs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/send2/.projects/Sirius/build/CMakeFiles --progress-num= "Built target docs"
 .PHONY : _deps/glfw-build/docs/CMakeFiles/docs.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/glfw-build/docs/CMakeFiles/docs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/glfw-build/docs/CMakeFiles/docs.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/send2/.projects/Sirius/build/CMakeFiles 0
 .PHONY : _deps/glfw-build/docs/CMakeFiles/docs.dir/rule
