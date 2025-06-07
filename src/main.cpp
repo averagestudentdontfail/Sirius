@@ -4,7 +4,6 @@
 #include "hal/OpenCLContext.hpp"
 #include "ui/ImGuiLayer.hpp"
 #include <imgui.h>
-#include <imgui_internal.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 #include <glad/glad.h>
@@ -36,57 +35,47 @@ public:
             
             m_ImGuiLayer->Begin();
             
-            // --- Your UI and Logic Here ---
+            // --- Simple UI without docking (fallback) ---
             
-            // Simple dockspace setup that works with ImGui v1.90.1
-            static bool dockspaceOpen = true;
-            static bool opt_fullscreen_persistant = true;
-            bool opt_fullscreen = opt_fullscreen_persistant;
-            static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+            // Status window
+            ImGui::Begin("Status");
+            ImGui::Text("Hello, Sirius!");
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 
+                       1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            ImGui::Separator();
+            ImGui::Text("OpenCL Device: %s", 
+                       m_OpenCLContext->GetDevice().getInfo<CL_DEVICE_NAME>().c_str());
             
-            ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
-            if (opt_fullscreen) {
-                ImGuiViewport* viewport = ImGui::GetMainViewport();
-                ImGui::SetNextWindowPos(viewport->Pos);
-                ImGui::SetNextWindowSize(viewport->Size);
-                ImGui::SetNextWindowViewport(viewport->ID);
-                ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-                ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-                window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-                window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
-            }
-            
-            if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
-                window_flags |= ImGuiWindowFlags_NoBackground;
-                
-            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-            ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
-            ImGui::PopStyleVar();
-            
-            if (opt_fullscreen)
-                ImGui::PopStyleVar(2);
-                
-            // DockSpace
+            // Show docking status
             ImGuiIO& io = ImGui::GetIO();
             if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable) {
-                ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-                ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-            }
-            
-            ImGui::End();
-            
-            // Your actual windows
-            if (ImGui::Begin("Status")) {
-                ImGui::Text("Hello, Sirius!");
-                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 
-                           1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-                ImGui::Separator();
-                ImGui::Text("OpenCL Device: %s", 
-                           m_OpenCLContext->GetDevice().getInfo<CL_DEVICE_NAME>().c_str());
+                ImGui::Text("Docking: ENABLED");
+                ImGui::Text("Try dragging this window by its title bar!");
+            } else {
+                ImGui::Text("Docking: DISABLED");
             }
             ImGui::End();
             
-            ImGui::ShowDemoWindow();
+            // Demo window
+            static bool show_demo = true;
+            if (show_demo) {
+                ImGui::ShowDemoWindow(&show_demo);
+            }
+            
+            // Simple menu bar
+            if (ImGui::BeginMainMenuBar()) {
+                if (ImGui::BeginMenu("File")) {
+                    if (ImGui::MenuItem("Exit")) {
+                        glfwSetWindowShouldClose(m_Window->GetNativeWindow(), GLFW_TRUE);
+                    }
+                    ImGui::EndMenu();
+                }
+                if (ImGui::BeginMenu("View")) {
+                    ImGui::MenuItem("Demo Window", nullptr, &show_demo);
+                    ImGui::EndMenu();
+                }
+                ImGui::EndMainMenuBar();
+            }
             
             // -----------------------------
             
