@@ -1,6 +1,7 @@
 #include "Window.hpp"
+#include <glad/glad.h>  // Include GLAD first
+#define GLFW_INCLUDE_NONE  // Tell GLFW not to include OpenGL headers
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
 #include <stdexcept>
 #include <iostream>
 

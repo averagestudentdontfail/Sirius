@@ -3,11 +3,13 @@
 #include "core/Window.hpp"
 #include "hal/OpenCLContext.hpp"
 #include "ui/ImGuiLayer.hpp"
+
+#include <glad/glad.h>  // Include GLAD first
+#define GLFW_INCLUDE_NONE  // Tell GLFW not to include OpenGL headers
+#include <GLFW/glfw3.h>
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 
 class Application {
 public:
