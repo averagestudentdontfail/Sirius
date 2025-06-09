@@ -29,6 +29,10 @@ private:
         void* library;
         DestroyMetricFunc destroy;
         std::unique_ptr<IMetric> instance;
+        
+        // Constructor to initialize the plugin handle
+        PluginHandle(void* lib, DestroyMetricFunc destroyFunc, std::unique_ptr<IMetric> inst)
+            : library(lib), destroy(destroyFunc), instance(std::move(inst)) {}
     };
 
     std::vector<PluginHandle> m_LoadedPlugins;
