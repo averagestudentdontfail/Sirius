@@ -30,6 +30,7 @@ add_executable(Sirius
     src/main.cpp
     src/Core/Application.cpp
     src/Core/Window.cpp
+    src/Core/PluginManager.cpp
     src/UI/UIManager.cpp
     # Add glad.c from our deps folder
     deps/glad/src/glad.c
@@ -41,14 +42,12 @@ add_executable(Sirius
     deps/imgui/imgui_demo.cpp
     deps/imgui/backends/imgui_impl_glfw.cpp
     deps/imgui/backends/imgui_impl_opengl3.cpp
-    # Add metric plugin source files
-    plugins/minkowski/MinkowskiMetric.cpp
+    # NOTE: Removed MinkowskiMetric.cpp from here - it should only be in the plugin
 )
 
 # --- Link Libraries to the Main Application ---------------------------------
 target_link_libraries(Sirius PRIVATE
     glfw
-    imgui
     OpenGL::GL
     OpenCL::OpenCL
     Threads::Threads
@@ -68,6 +67,11 @@ file(MAKE_DIRECTORY ${PLUGIN_OUTPUT_PATH})
 # Add the Minkowski metric plugin
 add_library(MinkowskiMetric SHARED
     plugins/minkowski/MinkowskiMetric.cpp
+)
+
+# Add include directories for the plugin
+target_include_directories(MinkowskiMetric PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/src"
 )
 
 set_target_properties(MinkowskiMetric PROPERTIES

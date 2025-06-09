@@ -3,6 +3,7 @@
 #include "Math/Vec.h"
 #include "Math/Dual.h"
 #include "Core/Config.h"
+#include <array>
 
 // Define our 4D spacetime vector and tensor types
 template<int Rows, int Cols>
