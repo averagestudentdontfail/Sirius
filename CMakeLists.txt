@@ -16,7 +16,6 @@ find_package(Threads REQUIRED)
 # Add the subdirectories for our dependencies. CMake will build them with our project.
 # We will add these dependencies in the next steps.
 add_subdirectory(deps/glfw)
-add_subdirectory(deps/imgui)
 
 # --- Configure Include Directories ------------------------------------------
 # This allows our project to find the header files from our dependencies and source.
@@ -37,13 +36,19 @@ add_executable(Sirius
     src/UI/UIManager.cpp
     # Add glad.c from our deps folder
     deps/glad/src/glad.c
+    # Add ImGui source files directly
+    deps/imgui/imgui.cpp
+    deps/imgui/imgui_draw.cpp
+    deps/imgui/imgui_tables.cpp
+    deps/imgui/imgui_widgets.cpp
+    deps/imgui/imgui_demo.cpp
 )
 
 # --- Link Libraries to the Main Application ---------------------------------
 target_link_libraries(Sirius PRIVATE
     # Our dependencies
     glfw
-    imgui
+    # imgui removed, as we now add sources directly
 
     # System libraries
     OpenGL::GL
