@@ -14,5 +14,8 @@ public:
     void displayMainUI();
 
 private:
+    void displayViewport();
+    void displayControlPanel();
+    
     Application& m_App; // Store a reference to the main application
 };

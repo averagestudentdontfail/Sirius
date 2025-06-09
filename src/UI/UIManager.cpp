@@ -1,6 +1,7 @@
 #include "UIManager.h"
 #include "Core/Application.h" // Include full Application definition
 #include "Core/PluginManager.h"
+#include "Graphics/Renderer.h"
 #include "Physics/IMetric.h"
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
@@ -54,7 +55,74 @@ void UIManager::endFrame() {
 }
 
 void UIManager::displayMainUI() {
-    ImGui::Begin("Sirius Control");
+    // Create dockspace for the entire window
+    ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+    
+    const ImGuiViewport* viewport = ImGui::GetMainViewport();
+    ImGui::SetNextWindowPos(viewport->WorkPos);
+    ImGui::SetNextWindowSize(viewport->WorkSize);
+    ImGui::SetNextWindowViewport(viewport->ID);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+    window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+    window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+
+    if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
+        window_flags |= ImGuiWindowFlags_NoBackground;
+
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+    ImGui::Begin("DockSpace", nullptr, window_flags);
+    ImGui::PopStyleVar();
+    ImGui::PopStyleVar(2);
+
+    // Create the dockspace
+    ImGuiIO& io = ImGui::GetIO();
+    if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable) {
+        ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+        ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+    }
+
+    ImGui::End();
+
+    // Render viewport window
+    displayViewport();
+    
+    // Render control panel
+    displayControlPanel();
+}
+
+void UIManager::displayViewport() {
+    ImGui::Begin("Viewport");
+
+    Renderer* renderer = m_App.getRenderer();
+    if (renderer && m_App.m_CurrentMetric) {
+        unsigned int textureID = renderer->getOutputTexture();
+        
+        // Get the content region available for the image
+        ImVec2 contentRegion = ImGui::GetContentRegionAvail();
+        
+        // Display the rendered texture
+        ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(textureID)), 
+                     contentRegion, 
+                     ImVec2(0, 1), ImVec2(1, 0)); // Flip Y coordinate for OpenGL
+        
+        // Display render info
+        if (ImGui::IsItemHovered()) {
+            ImGui::BeginTooltip();
+            ImGui::Text("Metric: %s", m_App.m_CurrentMetric->getName());
+            ImGui::Text("Resolution: %.0fx%.0f", contentRegion.x, contentRegion.y);
+            ImGui::EndTooltip();
+        }
+    } else {
+        ImGui::Text("No metric selected or renderer not available");
+    }
+
+    ImGui::End();
+}
+
+void UIManager::displayControlPanel() {
+    ImGui::Begin("Control Panel");
 
     // Metric Selection Dropdown
     const char* currentName = m_App.m_CurrentMetric ? m_App.m_CurrentMetric->getName() : "None";
@@ -84,12 +152,39 @@ void UIManager::displayMainUI() {
         if (!params.empty()) {
             ImGui::Text("Parameters:");
             for (auto const& [key, val] : params) {
-                // This is a temporary way to show the value. We will add sliders later.
-                ImGui::Text("  %s: %f", key.c_str(), val.value);
+                // Add sliders for parameter control
+                float value = static_cast<float>(val.value);
+                float min_val = static_cast<float>(val.min);
+                float max_val = static_cast<float>(val.max);
+                
+                if (ImGui::SliderFloat(key.c_str(), &value, min_val, max_val)) {
+                    m_App.m_CurrentMetric->setParameter(key, static_cast<double>(value));
+                }
+            }
+        }
+        
+        ImGui::Separator();
+        
+        // Render statistics
+        if (ImGui::CollapsingHeader("Render Info")) {
+            Renderer* renderer = m_App.getRenderer();
+            if (renderer) {
+                ImGui::Text("Renderer: OpenCL");
+                ImGui::Text("Output Texture ID: %u", renderer->getOutputTexture());
+                // Add more render stats as needed
             }
         }
     } else {
         ImGui::Text("No metric loaded.");
+        
+        if (ImGui::Button("Reload Plugins")) {
+            m_App.m_PluginManager->loadPlugins("./plugins");
+            auto metricNames = m_App.m_PluginManager->getMetricNames();
+            if (!metricNames.empty()) {
+                m_App.m_CurrentMetricName = metricNames[0];
+                m_App.m_CurrentMetric = m_App.m_PluginManager->getMetric(m_App.m_CurrentMetricName);
+            }
+        }
     }
 
     ImGui::End();

@@ -31,6 +31,7 @@ add_executable(Sirius
     src/Core/Application.cpp
     src/Core/Window.cpp
     src/Core/PluginManager.cpp
+    src/Graphics/Renderer.cpp
     src/UI/UIManager.cpp
     # Add glad.c from our deps folder
     deps/glad/src/glad.c
@@ -77,8 +78,13 @@ set_target_properties(MinkowskiMetric PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY "${PLUGIN_OUTPUT_PATH}"
 )
 
+# Copy kernels directory to build output
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/kernels 
+     DESTINATION ${CMAKE_BINARY_DIR})
+
 # ----------------------------------------------------------------------------
 
 message(STATUS "CMake configured for Sirius project.")
 message(STATUS "Output directory: ${CMAKE_BINARY_DIR}")
 message(STATUS "Plugin output directory: ${PLUGIN_OUTPUT_PATH}")
+message(STATUS "Kernels copied to: ${CMAKE_BINARY_DIR}/kernels")
