@@ -30,14 +30,13 @@ include_directories(
 )
 
 # --- Add Application Source Files --------------------------------------------
-# We will add our source files here as we create them.
-# For now, we'll start with main.cpp.
 add_executable(Sirius
     src/main.cpp
-    # Add other source files here later, e.g.:
-    # src/Core/Window.cpp
-    # src/Graphics/Renderer.cpp
-    # ...etc
+    src/Core/Application.cpp
+    src/Core/Window.cpp
+    src/UI/UIManager.cpp
+    # Add glad.c from our deps folder
+    deps/glad/src/glad.c
 )
 
 # --- Link Libraries to the Main Application ---------------------------------
