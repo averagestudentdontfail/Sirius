@@ -65,16 +65,6 @@ target_link_libraries(Sirius PRIVATE
 set(PLUGIN_OUTPUT_PATH "${CMAKE_BINARY_DIR}/plugins")
 file(MAKE_DIRECTORY ${PLUGIN_OUTPUT_PATH})
 
-# Example for a Schwarzschild plugin
-add_library(schwarzschild_plugin SHARED
-    plugins/schwarzschild/schwarzschild.cpp
-)
-
-# Ensure the plugin is built to the correct directory
-set_target_properties(schwarzschild_plugin PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY "${PLUGIN_OUTPUT_PATH}"
-)
-
 # ----------------------------------------------------------------------------
 
 message(STATUS "CMake configured for Sirius project.")
