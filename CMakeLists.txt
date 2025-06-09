@@ -63,11 +63,11 @@ set(PLUGIN_OUTPUT_PATH "${CMAKE_BINARY_DIR}/plugins")
 file(MAKE_DIRECTORY ${PLUGIN_OUTPUT_PATH})
 
 # Add the Minkowski metric plugin
-add_library(minkowski_plugin SHARED
-    plugins/minkowski/MinkowskiPlugin.cpp
+add_library(MinkowskiMetric SHARED
+    plugins/minkowski/MinkowskiMetric.cpp
 )
 
-set_target_properties(minkowski_plugin PROPERTIES
+set_target_properties(MinkowskiMetric PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY "${PLUGIN_OUTPUT_PATH}"
 )
 
