@@ -6,7 +6,7 @@
 #include "Math/Vec.h"   // For Vec4 type
 
 // Forward-declare OpenCL types
-namespace cl { class Context; class CommandQueue; class Kernel; class Buffer; class Image2D; }
+namespace cl { class Context; class CommandQueue; class Kernel; class Buffer; class Image2D; class Device; }
 class IMetric;
 
 // The C++ equivalent of the OpenCL Ray struct
@@ -33,16 +33,19 @@ public:
 private:
     void createResources(int width, int height);
     void compileKernel(IMetric* metric);
+    void setupRays();
+    void renderFallback();
     std::string generateCompilerOptions(IMetric* metric) const;
 
     int m_Width, m_Height;
 
-    // OpenCL objects (temporarily disabled)
-    // std::unique_ptr<cl::Context> m_Context;
-    // std::unique_ptr<cl::CommandQueue> m_Queue;
-    // std::unique_ptr<cl::Kernel> m_Kernel;
-    // std::unique_ptr<cl::Buffer> m_RayBuffer;
-    // std::unique_ptr<cl::Image2D> m_OutputImage;
+    // OpenCL objects
+    std::unique_ptr<cl::Context> m_Context;
+    std::unique_ptr<cl::CommandQueue> m_Queue;
+    std::unique_ptr<cl::Kernel> m_Kernel;
+    std::unique_ptr<cl::Buffer> m_RayBuffer;
+    std::unique_ptr<cl::Image2D> m_OutputImage;
+    cl::Device m_Device; // Store device for kernel compilation
     
     // OpenGL texture for output
     unsigned int m_OutputTextureID;
