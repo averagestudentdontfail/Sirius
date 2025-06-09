@@ -17,7 +17,7 @@ add_subdirectory(deps/glfw)
 # --- Configure Include Directories ------------------------------------------
 include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
-    "${CMAKE_CURRENT_SOURCE_DIR}/plugins"
+    "${CMAKE_CURRENT_SOURCE_DIR}/plugins/minkowski"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/imgui"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/imgui/backends"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/glm"
