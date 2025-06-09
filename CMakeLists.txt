@@ -44,19 +44,32 @@ add_executable(Sirius
 
 # --- Link Libraries to the Main Application ---------------------------------
 target_link_libraries(Sirius PRIVATE
-    # Our dependencies
     glfw
-    # System libraries
+    imgui
     OpenGL::GL
     OpenCL::OpenCL
     Threads::Threads
 )
+
+# Add platform-specific library for dynamic loading
+if(UNIX AND NOT APPLE)
+    target_link_libraries(Sirius PRIVATE dl)
+endif()
 
 # --- Define a Metric Plugin -------------------------------------------------
 
 # Set a variable for where plugins will be output
 set(PLUGIN_OUTPUT_PATH "${CMAKE_BINARY_DIR}/plugins")
 file(MAKE_DIRECTORY ${PLUGIN_OUTPUT_PATH})
+
+# Add the Minkowski metric plugin
+add_library(minkowski_plugin SHARED
+    plugins/minkowski/MinkowskiPlugin.cpp
+)
+
+set_target_properties(minkowski_plugin PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY "${PLUGIN_OUTPUT_PATH}"
+)
 
 # ----------------------------------------------------------------------------
 

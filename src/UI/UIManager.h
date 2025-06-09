@@ -1,13 +1,18 @@
 #pragma once
 
 struct GLFWwindow;
+class Application; // Forward-declare Application
 
 class UIManager {
 public:
-    UIManager(GLFWwindow* window);
+    // Constructor now takes a reference to the Application
+    UIManager(GLFWwindow* window, Application& app);
     ~UIManager();
 
     void beginFrame();
     void endFrame();
-    void displayMainMenu(); 
+    void displayMainUI();
+
+private:
+    Application& m_App; // Store a reference to the main application
 };
