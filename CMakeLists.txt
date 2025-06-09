@@ -17,6 +17,7 @@ add_subdirectory(deps/glfw)
 # --- Configure Include Directories ------------------------------------------
 include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
+    "${CMAKE_CURRENT_SOURCE_DIR}/plugins"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/imgui"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/imgui/backends"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/glm"
@@ -40,6 +41,8 @@ add_executable(Sirius
     deps/imgui/imgui_demo.cpp
     deps/imgui/backends/imgui_impl_glfw.cpp
     deps/imgui/backends/imgui_impl_opengl3.cpp
+    # Add metric plugin source files
+    plugins/minkowski/MinkowskiMetric.cpp
 )
 
 # --- Link Libraries to the Main Application ---------------------------------
