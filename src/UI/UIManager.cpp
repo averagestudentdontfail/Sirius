@@ -1,12 +1,13 @@
 #include "UIManager.h"
-#include "Core/Application.h" // Include full Application definition
+#include "Core/Application.h"
 #include "Core/PluginManager.h"
 #include "Graphics/Renderer.h"
 #include "Physics/IMetric.h"
+#include <glad/glad.h>  // Must come BEFORE any OpenGL includes
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
-#include <GLFW/glfw3.h>  // Add this include for GLFW functions
+#include <GLFW/glfw3.h>
 #include <string>
 
 UIManager::UIManager(GLFWwindow* window, Application& app) : m_App(app) {
@@ -102,17 +103,24 @@ void UIManager::displayViewport() {
         // Get the content region available for the image
         ImVec2 contentRegion = ImGui::GetContentRegionAvail();
         
-        // Display the rendered texture
-        ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(textureID)), 
-                     contentRegion, 
-                     ImVec2(0, 1), ImVec2(1, 0)); // Flip Y coordinate for OpenGL
-        
-        // Display render info
-        if (ImGui::IsItemHovered()) {
-            ImGui::BeginTooltip();
-            ImGui::Text("Metric: %s", m_App.m_CurrentMetric->getName());
-            ImGui::Text("Resolution: %.0fx%.0f", contentRegion.x, contentRegion.y);
-            ImGui::EndTooltip();
+        // Ensure we have a valid texture and content region
+        if (textureID > 0 && contentRegion.x > 0 && contentRegion.y > 0) {
+            // Cast texture ID directly to ImTextureID (which is uint64_t in this build)
+            ImTextureID texID = static_cast<ImTextureID>(textureID);
+            ImGui::Image(texID, contentRegion, ImVec2(0, 1), ImVec2(1, 0)); // Flip Y coordinate for OpenGL
+            
+            // Display render info on hover
+            if (ImGui::IsItemHovered()) {
+                ImGui::BeginTooltip();
+                ImGui::Text("Metric: %s", m_App.m_CurrentMetric->getName());
+                ImGui::Text("Resolution: %.0fx%.0f", contentRegion.x, contentRegion.y);
+                ImGui::Text("Texture ID: %u", textureID);
+                ImGui::EndTooltip();
+            }
+        } else {
+            ImGui::Text("Waiting for texture...");
+            ImGui::Text("Texture ID: %u", textureID);
+            ImGui::Text("Content Region: %.1fx%.1f", contentRegion.x, contentRegion.y);
         }
     } else {
         ImGui::Text("No metric selected or renderer not available");
@@ -169,7 +177,7 @@ void UIManager::displayControlPanel() {
         if (ImGui::CollapsingHeader("Render Info")) {
             Renderer* renderer = m_App.getRenderer();
             if (renderer) {
-                ImGui::Text("Renderer: OpenCL");
+                ImGui::Text("Renderer: Test Pattern (OpenCL disabled)");
                 ImGui::Text("Output Texture ID: %u", renderer->getOutputTexture());
                 // Add more render stats as needed
             }

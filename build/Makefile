@@ -527,6 +527,30 @@ src/Core/Window.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Sirius.dir/build.make CMakeFiles/Sirius.dir/src/Core/Window.cpp.s
 .PHONY : src/Core/Window.cpp.s
 
+src/Graphics/Renderer.o: src/Graphics/Renderer.cpp.o
+.PHONY : src/Graphics/Renderer.o
+
+# target to build an object file
+src/Graphics/Renderer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Sirius.dir/build.make CMakeFiles/Sirius.dir/src/Graphics/Renderer.cpp.o
+.PHONY : src/Graphics/Renderer.cpp.o
+
+src/Graphics/Renderer.i: src/Graphics/Renderer.cpp.i
+.PHONY : src/Graphics/Renderer.i
+
+# target to preprocess a source file
+src/Graphics/Renderer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Sirius.dir/build.make CMakeFiles/Sirius.dir/src/Graphics/Renderer.cpp.i
+.PHONY : src/Graphics/Renderer.cpp.i
+
+src/Graphics/Renderer.s: src/Graphics/Renderer.cpp.s
+.PHONY : src/Graphics/Renderer.s
+
+# target to generate assembly for a file
+src/Graphics/Renderer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Sirius.dir/build.make CMakeFiles/Sirius.dir/src/Graphics/Renderer.cpp.s
+.PHONY : src/Graphics/Renderer.cpp.s
+
 src/UI/UIManager.o: src/UI/UIManager.cpp.o
 .PHONY : src/UI/UIManager.o
 
@@ -629,6 +653,9 @@ help:
 	@echo "... src/Core/Window.o"
 	@echo "... src/Core/Window.i"
 	@echo "... src/Core/Window.s"
+	@echo "... src/Graphics/Renderer.o"
+	@echo "... src/Graphics/Renderer.i"
+	@echo "... src/Graphics/Renderer.s"
 	@echo "... src/UI/UIManager.o"
 	@echo "... src/UI/UIManager.i"
 	@echo "... src/UI/UIManager.s"

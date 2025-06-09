@@ -1,5 +1,6 @@
 #include "Core/Window.h"
 #include <stdexcept>
+#include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -35,6 +36,10 @@ Window::Window(int width, int height, const std::string& title) {
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         throw std::runtime_error("Failed to initialize GLAD");
     }
+
+    // Print OpenGL info for debugging
+    std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
+    std::cout << "OpenGL Renderer: " << glGetString(GL_RENDERER) << std::endl;
 
     glfwSwapInterval(1); // Enable V-Sync
 }

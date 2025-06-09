@@ -21,6 +21,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Sirius.dir/src/Core/PluginManager.cpp.o.d"
   "CMakeFiles/Sirius.dir/src/Core/Window.cpp.o"
   "CMakeFiles/Sirius.dir/src/Core/Window.cpp.o.d"
+  "CMakeFiles/Sirius.dir/src/Graphics/Renderer.cpp.o"
+  "CMakeFiles/Sirius.dir/src/Graphics/Renderer.cpp.o.d"
   "CMakeFiles/Sirius.dir/src/UI/UIManager.cpp.o"
   "CMakeFiles/Sirius.dir/src/UI/UIManager.cpp.o.d"
   "CMakeFiles/Sirius.dir/src/main.cpp.o"

@@ -19,6 +19,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/send2/.projects/Sirius/src/Core/Application.cpp" "CMakeFiles/Sirius.dir/src/Core/Application.cpp.o" "gcc" "CMakeFiles/Sirius.dir/src/Core/Application.cpp.o.d"
   "/home/send2/.projects/Sirius/src/Core/PluginManager.cpp" "CMakeFiles/Sirius.dir/src/Core/PluginManager.cpp.o" "gcc" "CMakeFiles/Sirius.dir/src/Core/PluginManager.cpp.o.d"
   "/home/send2/.projects/Sirius/src/Core/Window.cpp" "CMakeFiles/Sirius.dir/src/Core/Window.cpp.o" "gcc" "CMakeFiles/Sirius.dir/src/Core/Window.cpp.o.d"
+  "/home/send2/.projects/Sirius/src/Graphics/Renderer.cpp" "CMakeFiles/Sirius.dir/src/Graphics/Renderer.cpp.o" "gcc" "CMakeFiles/Sirius.dir/src/Graphics/Renderer.cpp.o.d"
   "/home/send2/.projects/Sirius/src/UI/UIManager.cpp" "CMakeFiles/Sirius.dir/src/UI/UIManager.cpp.o" "gcc" "CMakeFiles/Sirius.dir/src/UI/UIManager.cpp.o.d"
   "/home/send2/.projects/Sirius/src/main.cpp" "CMakeFiles/Sirius.dir/src/main.cpp.o" "gcc" "CMakeFiles/Sirius.dir/src/main.cpp.o.d"
   )

@@ -351,6 +351,8 @@ CMakeFiles/Sirius.dir/src/Core/Application.cpp.o: \
  /home/send2/.projects/Sirius/src/Core/Config.h /usr/include/c++/13/map \
  /usr/include/c++/13/bits/stl_tree.h /usr/include/c++/13/bits/stl_map.h \
  /usr/include/c++/13/bits/stl_multimap.h \
+ /home/send2/.projects/Sirius/src/Graphics/Renderer.h \
  /home/send2/.projects/Sirius/src/UI/UIManager.h \
  /home/send2/.projects/Sirius/deps/glad/include/glad/glad.h \
- /home/send2/.projects/Sirius/deps/glad/include/KHR/khrplatform.h
+ /home/send2/.projects/Sirius/deps/glad/include/KHR/khrplatform.h \
+ /home/send2/.projects/Sirius/deps/glfw/include/GLFW/glfw3.h
