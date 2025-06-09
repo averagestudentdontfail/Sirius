@@ -49,15 +49,15 @@ Renderer::Renderer(int width, int height) : m_Width(width), m_Height(height), m_
             throw std::runtime_error("No OpenCL devices found.");
         }
         
-        m_Device = devices.front();
-        std::cout << "Using OpenCL device: " << m_Device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        std::cout << "Device type: " << (m_Device.getInfo<CL_DEVICE_TYPE>() == CL_DEVICE_TYPE_GPU ? "GPU" : "CPU") << std::endl;
+        m_Device = std::make_unique<cl::Device>(devices.front());
+        std::cout << "Using OpenCL device: " << m_Device->getInfo<CL_DEVICE_NAME>() << std::endl;
+        std::cout << "Device type: " << (m_Device->getInfo<CL_DEVICE_TYPE>() == CL_DEVICE_TYPE_GPU ? "GPU" : "CPU") << std::endl;
         
         // 2. Create OpenCL Context
-        m_Context = std::make_unique<cl::Context>(m_Device);
+        m_Context = std::make_unique<cl::Context>(*m_Device);
         
         // 3. Create Command Queue
-        m_Queue = std::make_unique<cl::CommandQueue>(*m_Context, m_Device);
+        m_Queue = std::make_unique<cl::CommandQueue>(*m_Context, *m_Device);
         
         // 4. Create GPU resources
         createResources(width, height);
@@ -138,7 +138,7 @@ void Renderer::compileKernel(IMetric* metric) {
         std::string options = generateCompilerOptions(metric);
         
         try {
-            program.build({m_Device}, options.c_str());
+            program.build({*m_Device}, options.c_str());
             std::cout << "Kernel compiled successfully!" << std::endl;
         } catch (const cl::BuildError& err) {
             std::cerr << "OpenCL Kernel Build Error:" << std::endl;

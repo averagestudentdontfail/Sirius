@@ -45,7 +45,7 @@ private:
     std::unique_ptr<cl::Kernel> m_Kernel;
     std::unique_ptr<cl::Buffer> m_RayBuffer;
     std::unique_ptr<cl::Image2D> m_OutputImage;
-    cl::Device m_Device; // Store device for kernel compilation
+    std::unique_ptr<cl::Device> m_Device; // Store device for kernel compilation
     
     // OpenGL texture for output
     unsigned int m_OutputTextureID;

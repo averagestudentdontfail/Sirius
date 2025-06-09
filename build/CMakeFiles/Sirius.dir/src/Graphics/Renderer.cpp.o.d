@@ -374,4 +374,22 @@ CMakeFiles/Sirius.dir/src/Graphics/Renderer.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
  /usr/include/c++/13/bits/fstream.tcc /usr/include/c++/13/iterator \
- /usr/include/c++/13/bits/stream_iterator.h
+ /usr/include/c++/13/bits/stream_iterator.h /usr/include/CL/opencl.hpp \
+ /mnt/c/Program\ Files/NVIDIA\ GPU\ Computing\ Toolkit/CUDA/v12.8/include/CL/opencl.h \
+ /mnt/c/Program\ Files/NVIDIA\ GPU\ Computing\ Toolkit/CUDA/v12.8/include/CL/cl.h \
+ /mnt/c/Program\ Files/NVIDIA\ GPU\ Computing\ Toolkit/CUDA/v12.8/include/CL/cl_version.h \
+ /mnt/c/Program\ Files/NVIDIA\ GPU\ Computing\ Toolkit/CUDA/v12.8/include/CL/cl_platform.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/xmmintrin.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/mmintrin.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/mm_malloc.h \
+ /usr/include/c++/13/stdlib.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/emmintrin.h \
+ /mnt/c/Program\ Files/NVIDIA\ GPU\ Computing\ Toolkit/CUDA/v12.8/include/CL/cl_gl.h \
+ /mnt/c/Program\ Files/NVIDIA\ GPU\ Computing\ Toolkit/CUDA/v12.8/include/CL/cl_ext.h \
+ /usr/include/c++/13/utility /usr/include/c++/13/bits/stl_relops.h \
+ /usr/include/c++/13/mutex /usr/include/c++/13/bits/chrono.h \
+ /usr/include/c++/13/ratio /usr/include/c++/13/ctime \
+ /usr/include/c++/13/bits/parse_numbers.h \
+ /usr/include/c++/13/bits/std_mutex.h \
+ /usr/include/c++/13/bits/unique_lock.h /usr/include/c++/13/cstring \
+ /usr/include/string.h /usr/include/strings.h
