@@ -54,7 +54,6 @@ target_link_libraries(Sirius PRIVATE
 
 # --- Define a Metric Plugin -------------------------------------------------
 
-
 # Set a variable for where plugins will be output
 set(PLUGIN_OUTPUT_PATH "${CMAKE_BINARY_DIR}/plugins")
 file(MAKE_DIRECTORY ${PLUGIN_OUTPUT_PATH})

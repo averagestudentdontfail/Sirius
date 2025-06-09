@@ -153,4 +153,6 @@ CMakeFiles/Sirius.dir/src/Core/Application.cpp.o: \
  /usr/include/c++/13/bits/basic_string.tcc \
  /usr/include/c++/13/bits/memory_resource.h /usr/include/c++/13/cstddef \
  /usr/include/c++/13/bits/uses_allocator_args.h \
- /home/send2/.projects/Sirius/src/UI/UIManager.h
+ /home/send2/.projects/Sirius/src/UI/UIManager.h \
+ /home/send2/.projects/Sirius/deps/glad/include/glad/glad.h \
+ /home/send2/.projects/Sirius/deps/glad/include/KHR/khrplatform.h
