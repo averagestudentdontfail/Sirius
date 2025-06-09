@@ -7,18 +7,14 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # --- Find Required Packages -------------------------------------------------
-# Find OpenGL and OpenCL, which should be available on your system
 find_package(OpenGL REQUIRED)
 find_package(OpenCL REQUIRED)
 find_package(Threads REQUIRED)
 
-# --- Add Dependencies (from the 'deps' folder) -----------------------------
-# Add the subdirectories for our dependencies. CMake will build them with our project.
-# We will add these dependencies in the next steps.
+# --- Add Dependencies -------------------------------------------------------
 add_subdirectory(deps/glfw)
 
 # --- Configure Include Directories ------------------------------------------
-# This allows our project to find the header files from our dependencies and source.
 include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/imgui"
@@ -42,24 +38,22 @@ add_executable(Sirius
     deps/imgui/imgui_tables.cpp
     deps/imgui/imgui_widgets.cpp
     deps/imgui/imgui_demo.cpp
+    deps/imgui/backends/imgui_impl_glfw.cpp
+    deps/imgui/backends/imgui_impl_opengl3.cpp
 )
 
 # --- Link Libraries to the Main Application ---------------------------------
 target_link_libraries(Sirius PRIVATE
     # Our dependencies
     glfw
-    # imgui removed, as we now add sources directly
-
     # System libraries
     OpenGL::GL
     OpenCL::OpenCL
     Threads::Threads
 )
 
-# --- Define a Metric Plugin (Example) ---------------------------------------
-# This section demonstrates how we will build our metric plugins.
-# We create a SHARED library for each metric. This allows the main application
-# to load them at runtime without needing to be recompiled.
+# --- Define a Metric Plugin -------------------------------------------------
+
 
 # Set a variable for where plugins will be output
 set(PLUGIN_OUTPUT_PATH "${CMAKE_BINARY_DIR}/plugins")
