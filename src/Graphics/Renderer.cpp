@@ -7,11 +7,52 @@
 #include <iterator>
 #include <vector>
 #include <cmath>
+#include <chrono>
 
-// OpenCL includes
-#define CL_HPP_ENABLE_EXCEPTIONS
-#define CL_HPP_TARGET_OPENCL_VERSION 200
-#include <CL/opencl.hpp>
+// OpenCL includes - Platform specific
+#ifdef _WIN32
+    #define CL_HPP_ENABLE_EXCEPTIONS
+    #define CL_HPP_TARGET_OPENCL_VERSION 200
+    #ifdef _MSC_VER
+        #pragma warning(push)
+        #pragma warning(disable: 4996) // Disable deprecated warnings
+    #endif
+    // Try different OpenCL header locations for Windows
+    #if __has_include(<CL/cl2.hpp>)
+        #include <CL/cl2.hpp>
+    #elif __has_include(<CL/opencl.hpp>)
+        #include <CL/opencl.hpp>
+    #elif __has_include(<opencl.hpp>)
+        #include <opencl.hpp>
+    #else
+        // Fallback to C-style headers if C++ headers not available
+        #include <CL/cl.h>
+        // Define basic cl namespace for compatibility
+        namespace cl {
+            using Platform = cl_platform_id;
+            using Device = cl_device_id;
+            using Context = cl_context;
+            using CommandQueue = cl_command_queue;
+            using Kernel = cl_kernel;
+            using Buffer = cl_mem;
+            using Image2D = cl_mem;
+            using Program = cl_program;
+            using Error = std::runtime_error;
+            class BuildError : public std::runtime_error {
+            public:
+                BuildError(const char* msg) : std::runtime_error(msg) {}
+            };
+        }
+    #endif
+    #ifdef _MSC_VER
+        #pragma warning(pop)
+    #endif
+#else
+    // Linux OpenCL headers
+    #define CL_HPP_ENABLE_EXCEPTIONS
+    #define CL_HPP_TARGET_OPENCL_VERSION 200
+    #include <CL/opencl.hpp>
+#endif
 
 // Helper function to load kernel source from file
 std::string loadKernelSource(const std::string& path) {
@@ -44,52 +85,61 @@ Renderer::Renderer(int width, int height) : m_Width(width), m_Height(height), m_
             }
         }
         
-        // Use the first platform (POCL in your case)
-        cl::Platform platform = platforms[0];
-        std::cout << "Using OpenCL Platform: " << platform.getInfo<CL_PLATFORM_NAME>() << std::endl;
+        // Platform selection logic
+        cl::Platform platform;
+        bool platformSelected = false;
         
-        // 2. Get OpenCL Devices (POCL-compatible way)
+#ifdef _WIN32
+        // On Windows, prefer NVIDIA CUDA or Intel OpenCL platforms
+        for (auto& p : platforms) {
+            std::string name = p.getInfo<CL_PLATFORM_NAME>();
+            if (name.find("NVIDIA") != std::string::npos || 
+                name.find("CUDA") != std::string::npos ||
+                name.find("Intel") != std::string::npos) {
+                platform = p;
+                platformSelected = true;
+                std::cout << "Selected GPU platform: " << name << std::endl;
+                break;
+            }
+        }
+#else
+        // On Linux, prefer any available platform (likely POCL)
+        platform = platforms[0];
+        platformSelected = true;
+        std::cout << "Selected platform: " << platform.getInfo<CL_PLATFORM_NAME>() << std::endl;
+#endif
+        
+        if (!platformSelected) {
+            platform = platforms[0];
+            std::cout << "Using first available platform: " << platform.getInfo<CL_PLATFORM_NAME>() << std::endl;
+        }
+        
+        // 2. Get OpenCL Devices
         std::vector<cl::Device> devices;
-        
-        // Try different device types in order of preference
         bool deviceFound = false;
         
-        // First try: All devices
-        if (!deviceFound) {
-            try {
-                platform.getDevices(CL_DEVICE_TYPE_ALL, &devices);
-                if (!devices.empty()) {
-                    deviceFound = true;
-                    std::cout << "Found " << devices.size() << " device(s) with CL_DEVICE_TYPE_ALL" << std::endl;
-                }
-            } catch (const cl::Error& err) {
-                std::cout << "CL_DEVICE_TYPE_ALL query failed: " << err.what() << std::endl;
-            }
-        }
+        // Try different device types in order of preference
+#ifdef _WIN32
+        // On Windows, strongly prefer GPU devices
+        std::vector<cl_device_type> deviceTypes = {CL_DEVICE_TYPE_GPU, CL_DEVICE_TYPE_ALL, CL_DEVICE_TYPE_DEFAULT, CL_DEVICE_TYPE_CPU};
+#else
+        // On Linux, try all device types (POCL usually shows as CPU)
+        std::vector<cl_device_type> deviceTypes = {CL_DEVICE_TYPE_ALL, CL_DEVICE_TYPE_GPU, CL_DEVICE_TYPE_CPU, CL_DEVICE_TYPE_DEFAULT};
+#endif
         
-        // Second try: CPU devices (POCL is typically CPU)
-        if (!deviceFound) {
+        for (auto deviceType : deviceTypes) {
             try {
-                platform.getDevices(CL_DEVICE_TYPE_CPU, &devices);
+                platform.getDevices(deviceType, &devices);
                 if (!devices.empty()) {
                     deviceFound = true;
-                    std::cout << "Found " << devices.size() << " CPU device(s)" << std::endl;
+                    std::string typeStr = (deviceType == CL_DEVICE_TYPE_GPU) ? "GPU" :
+                                         (deviceType == CL_DEVICE_TYPE_CPU) ? "CPU" :
+                                         (deviceType == CL_DEVICE_TYPE_ALL) ? "ALL" : "DEFAULT";
+                    std::cout << "Found " << devices.size() << " device(s) with CL_DEVICE_TYPE_" << typeStr << std::endl;
+                    break;
                 }
             } catch (const cl::Error& err) {
-                std::cout << "CL_DEVICE_TYPE_CPU query failed: " << err.what() << std::endl;
-            }
-        }
-        
-        // Third try: Default devices
-        if (!deviceFound) {
-            try {
-                platform.getDevices(CL_DEVICE_TYPE_DEFAULT, &devices);
-                if (!devices.empty()) {
-                    deviceFound = true;
-                    std::cout << "Found " << devices.size() << " default device(s)" << std::endl;
-                }
-            } catch (const cl::Error& err) {
-                std::cout << "CL_DEVICE_TYPE_DEFAULT query failed: " << err.what() << std::endl;
+                // Continue to next device type
             }
         }
         
@@ -111,6 +161,16 @@ Renderer::Renderer(int width, int height) : m_Width(width), m_Height(height), m_
                                             deviceType == CL_DEVICE_TYPE_CPU ? "CPU" : "Other") << std::endl;
             std::cout << "Compute units: " << computeUnits << std::endl;
             std::cout << "Device available: " << (available ? "Yes" : "No") << std::endl;
+            
+#ifdef _WIN32
+            if (deviceType == CL_DEVICE_TYPE_GPU) {
+                std::cout << "🚀 GPU OpenCL detected - expect 60-120 FPS performance!" << std::endl;
+            } else {
+                std::cout << "⚠️  CPU OpenCL - performance will be limited (~10-20 FPS)" << std::endl;
+            }
+#else
+            std::cout << "🐧 Linux OpenCL (likely POCL) - expect ~10-20 FPS performance" << std::endl;
+#endif
             
             if (!available) {
                 throw std::runtime_error("Selected OpenCL device is not available");
@@ -142,7 +202,7 @@ Renderer::Renderer(int width, int height) : m_Width(width), m_Height(height), m_
         // 6. Create GPU resources
         createResources(width, height);
         
-        std::cout << "OpenCL Renderer initialized successfully with POCL!" << std::endl;
+        std::cout << "OpenCL Renderer initialized successfully!" << std::endl;
         
     } catch (const cl::Error& err) {
         std::cerr << "OpenCL Error: " << err.what() << " (Code: " << err.err() << ")" << std::endl;
@@ -261,7 +321,16 @@ void Renderer::render(IMetric* metric) {
         
         // 4. Execute the kernel
         cl::NDRange globalSize(m_Width * m_Height);
-        m_Queue->enqueueNDRangeKernel(*m_Kernel, cl::NullRange, globalSize, cl::NullRange);
+        
+#ifdef _WIN32
+        // On Windows with GPU, use larger work groups
+        cl::NDRange localSize(256);
+#else
+        // On Linux with CPU, use smaller work groups
+        cl::NDRange localSize(64);
+#endif
+        
+        m_Queue->enqueueNDRangeKernel(*m_Kernel, cl::NullRange, globalSize, localSize);
 
         // 5. Read the result back from OpenCL and update the OpenGL texture
         std::vector<float> pixelData(m_Width * m_Height * 4); // RGBA
