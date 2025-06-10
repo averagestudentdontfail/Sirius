@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC -O3 -DNDEBUG -shared -Wl,-soname,libpocl-devices-basic.so -o libpocl-devices-basic.so "CMakeFiles/pocl-devices-basic.dir/basic.c.o"  -Wl,-rpath,/home/send2/.projects/Sirius/build-linux/pocl-build/lib/CL: ../../libOpenCL.so.2.14.0 

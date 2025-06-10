@@ -1,0 +1,1 @@
+/usr/bin/cc -O3 -DNDEBUG  -pie CMakeFiles/poclcc.dir/poclcc.c.o -o poclcc  -Wl,-rpath,/home/send2/.projects/Sirius/build-linux/pocl-build/lib/CL:/usr/lib/llvm-16/lib: ../poclu/libpoclu.a ../lib/CL/libOpenCL.so.2.14.0 /usr/lib/llvm-16/lib/libclang-cpp.so /usr/lib/llvm-16/lib/libLLVM-16.so -lrt -lm -ldl -L/usr/lib/llvm-16/lib /usr/lib/x86_64-linux-gnu/libhwloc.so 

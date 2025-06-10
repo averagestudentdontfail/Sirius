@@ -1,0 +1,11 @@
+prefix=/home/send2/.projects/Sirius/build-linux/pocl-install
+exec_prefix=/home/send2/.projects/Sirius/build-linux/pocl-install/bin
+libdir=/home/send2/.projects/Sirius/build-linux/pocl-install/lib
+includedir=/home/send2/.projects/Sirius/build-linux/pocl-install/include
+
+Name: Portable Computing Language
+Description: Portable Computing Language
+Version: 7.0
+Libs: -L${libdir} -lpocl
+Cflags: -I${includedir}
+

@@ -1,0 +1,1 @@
+cmd='/usr/bin/cmake;-DCMAKE_INSTALL_PREFIX=/home/send2/.projects/Sirius/build-linux/pocl-install;-DCMAKE_BUILD_TYPE=Release;-DWITH_LLVM_CONFIG=/usr/bin/llvm-config-16;-DENABLE_ICD=OFF;-DENABLE_EXAMPLES=OFF;-DENABLE_TESTS=OFF;-GUnix Makefiles;-S;<SOURCE_DIR><SOURCE_SUBDIR>;-B;<BINARY_DIR>'

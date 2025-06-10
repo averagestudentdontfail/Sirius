@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="\\wsl.localhost\Ubuntu\home\send2\.projects\Sirius\build-windows\CMakeFiles\50f2364a2229c041dca7c4d98bd2bea8\update_mappings.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="\\wsl.localhost\Ubuntu\home\send2\.projects\Sirius\deps\glfw\src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="\\wsl.localhost\Ubuntu\home\send2\.projects\Sirius\deps\glfw\src\mappings.h.in">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="\\wsl.localhost\Ubuntu\home\send2\.projects\Sirius\deps\glfw\CMake\GenerateMappings.cmake" />
+    <None Include="\\wsl.localhost\Ubuntu\home\send2\.projects\Sirius\build-windows\deps\glfw\src\CMakeFiles\update_mappings" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{17F9380C-0906-3D1D-8DF6-918F60725A0D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{B9B72127-7CD5-3FB3-90D4-A2F32C2BB0E5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
