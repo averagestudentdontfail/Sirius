@@ -10,3 +10,6 @@
 [submodule "deps/tinyobjloader"]
 	path = deps/tinyobjloader
 	url = https://github.com/tinyobjloader/tinyobjloader.git
+[submodule "deps/pocl"]
+	path = deps/pocl
+	url = https://github.com/pocl/pocl.git
