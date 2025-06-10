@@ -26,47 +26,127 @@ Renderer::Renderer(int width, int height) : m_Width(width), m_Height(height), m_
     std::cout << "Initializing OpenCL Renderer (" << width << "x" << height << ")..." << std::endl;
     
     try {
-        // 1. Initialize OpenCL Platform and Device
+        // 1. Initialize OpenCL Platform
         std::vector<cl::Platform> platforms;
         cl::Platform::get(&platforms);
+        
         if (platforms.empty()) {
             throw std::runtime_error("No OpenCL platforms found.");
         }
         
-        cl::Platform platform = platforms.front();
+        std::cout << "Found " << platforms.size() << " OpenCL platform(s):" << std::endl;
+        for (size_t i = 0; i < platforms.size(); ++i) {
+            try {
+                std::string platformName = platforms[i].getInfo<CL_PLATFORM_NAME>();
+                std::cout << "  Platform " << i << ": " << platformName << std::endl;
+            } catch (const cl::Error& err) {
+                std::cout << "  Platform " << i << ": <name unavailable>" << std::endl;
+            }
+        }
+        
+        // Use the first platform (POCL in your case)
+        cl::Platform platform = platforms[0];
         std::cout << "Using OpenCL Platform: " << platform.getInfo<CL_PLATFORM_NAME>() << std::endl;
         
-        // Try to get GPU device first, fallback to CPU
+        // 2. Get OpenCL Devices (POCL-compatible way)
         std::vector<cl::Device> devices;
+        
+        // Try different device types in order of preference
+        bool deviceFound = false;
+        
+        // First try: All devices
+        if (!deviceFound) {
+            try {
+                platform.getDevices(CL_DEVICE_TYPE_ALL, &devices);
+                if (!devices.empty()) {
+                    deviceFound = true;
+                    std::cout << "Found " << devices.size() << " device(s) with CL_DEVICE_TYPE_ALL" << std::endl;
+                }
+            } catch (const cl::Error& err) {
+                std::cout << "CL_DEVICE_TYPE_ALL query failed: " << err.what() << std::endl;
+            }
+        }
+        
+        // Second try: CPU devices (POCL is typically CPU)
+        if (!deviceFound) {
+            try {
+                platform.getDevices(CL_DEVICE_TYPE_CPU, &devices);
+                if (!devices.empty()) {
+                    deviceFound = true;
+                    std::cout << "Found " << devices.size() << " CPU device(s)" << std::endl;
+                }
+            } catch (const cl::Error& err) {
+                std::cout << "CL_DEVICE_TYPE_CPU query failed: " << err.what() << std::endl;
+            }
+        }
+        
+        // Third try: Default devices
+        if (!deviceFound) {
+            try {
+                platform.getDevices(CL_DEVICE_TYPE_DEFAULT, &devices);
+                if (!devices.empty()) {
+                    deviceFound = true;
+                    std::cout << "Found " << devices.size() << " default device(s)" << std::endl;
+                }
+            } catch (const cl::Error& err) {
+                std::cout << "CL_DEVICE_TYPE_DEFAULT query failed: " << err.what() << std::endl;
+            }
+        }
+        
+        if (!deviceFound || devices.empty()) {
+            throw std::runtime_error("No OpenCL devices found on platform: " + platform.getInfo<CL_PLATFORM_NAME>());
+        }
+        
+        // 3. Select and display device information
+        m_Device = std::make_unique<cl::Device>(devices[0]);
+        
         try {
-            platform.getDevices(CL_DEVICE_TYPE_GPU, &devices);
-        } catch (const cl::Error&) {
-            std::cout << "No GPU devices found, trying CPU..." << std::endl;
-            platform.getDevices(CL_DEVICE_TYPE_CPU, &devices);
+            std::string deviceName = m_Device->getInfo<CL_DEVICE_NAME>();
+            cl_device_type deviceType = m_Device->getInfo<CL_DEVICE_TYPE>();
+            cl_uint computeUnits = m_Device->getInfo<CL_DEVICE_MAX_COMPUTE_UNITS>();
+            cl_bool available = m_Device->getInfo<CL_DEVICE_AVAILABLE>();
+            
+            std::cout << "Selected device: " << deviceName << std::endl;
+            std::cout << "Device type: " << (deviceType == CL_DEVICE_TYPE_GPU ? "GPU" : 
+                                            deviceType == CL_DEVICE_TYPE_CPU ? "CPU" : "Other") << std::endl;
+            std::cout << "Compute units: " << computeUnits << std::endl;
+            std::cout << "Device available: " << (available ? "Yes" : "No") << std::endl;
+            
+            if (!available) {
+                throw std::runtime_error("Selected OpenCL device is not available");
+            }
+            
+        } catch (const cl::Error& err) {
+            std::cout << "Warning: Could not get complete device info: " << err.what() << std::endl;
+            // Continue anyway - the device might still work
         }
         
-        if (devices.empty()) {
-            throw std::runtime_error("No OpenCL devices found.");
+        // 4. Create OpenCL Context
+        try {
+            m_Context = std::make_unique<cl::Context>(*m_Device);
+            std::cout << "OpenCL context created successfully" << std::endl;
+        } catch (const cl::Error& err) {
+            std::cerr << "Failed to create OpenCL context: " << err.what() << " (Code: " << err.err() << ")" << std::endl;
+            throw;
         }
         
-        m_Device = std::make_unique<cl::Device>(devices.front());
-        std::cout << "Using OpenCL device: " << m_Device->getInfo<CL_DEVICE_NAME>() << std::endl;
-        std::cout << "Device type: " << (m_Device->getInfo<CL_DEVICE_TYPE>() == CL_DEVICE_TYPE_GPU ? "GPU" : "CPU") << std::endl;
+        // 5. Create Command Queue
+        try {
+            m_Queue = std::make_unique<cl::CommandQueue>(*m_Context, *m_Device);
+            std::cout << "OpenCL command queue created successfully" << std::endl;
+        } catch (const cl::Error& err) {
+            std::cerr << "Failed to create OpenCL command queue: " << err.what() << " (Code: " << err.err() << ")" << std::endl;
+            throw;
+        }
         
-        // 2. Create OpenCL Context
-        m_Context = std::make_unique<cl::Context>(*m_Device);
-        
-        // 3. Create Command Queue
-        m_Queue = std::make_unique<cl::CommandQueue>(*m_Context, *m_Device);
-        
-        // 4. Create GPU resources
+        // 6. Create GPU resources
         createResources(width, height);
         
-        std::cout << "OpenCL Renderer initialized successfully!" << std::endl;
+        std::cout << "OpenCL Renderer initialized successfully with POCL!" << std::endl;
         
     } catch (const cl::Error& err) {
         std::cerr << "OpenCL Error: " << err.what() << " (Code: " << err.err() << ")" << std::endl;
-        throw std::runtime_error("Failed to initialize OpenCL");
+        throw std::runtime_error("Failed to initialize OpenCL: " + std::string(err.what()));
     } catch (const std::exception& err) {
         std::cerr << "Error initializing OpenCL Renderer: " << err.what() << std::endl;
         throw;

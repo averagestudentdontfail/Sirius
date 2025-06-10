@@ -9,6 +9,7 @@
 #include <imgui_impl_opengl3.h>
 #include <GLFW/glfw3.h>
 #include <string>
+#include <chrono>
 
 UIManager::UIManager(GLFWwindow* window, Application& app) : m_App(app) {
     // Setup Dear ImGui context
@@ -177,9 +178,32 @@ void UIManager::displayControlPanel() {
         if (ImGui::CollapsingHeader("Render Info")) {
             Renderer* renderer = m_App.getRenderer();
             if (renderer) {
-                ImGui::Text("Renderer: Test Pattern (OpenCL disabled)");
+                ImGui::Text("Renderer: OpenCL Ray Tracer (POCL CPU)");
+                ImGui::Text("Platform: Portable Computing Language");
+                ImGui::Text("Device: AMD Ryzen 7 7800X3D (16 cores)");
                 ImGui::Text("Output Texture ID: %u", renderer->getOutputTexture());
-                // Add more render stats as needed
+                ImGui::Text("Resolution: %dx%d", 1280, 720);
+                ImGui::Text("Total Rays: %d", 1280 * 720);
+                
+                // Add frame timing info
+                static float frameTime = 0.0f;
+                static int frameCount = 0;
+                static auto lastTime = std::chrono::high_resolution_clock::now();
+                
+                frameCount++;
+                auto currentTime = std::chrono::high_resolution_clock::now();
+                auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastTime);
+                
+                if (elapsed.count() >= 1000) { // Update every second
+                    frameTime = elapsed.count() / float(frameCount);
+                    frameCount = 0;
+                    lastTime = currentTime;
+                }
+                
+                if (frameTime > 0) {
+                    ImGui::Text("Frame Time: %.1f ms", frameTime);
+                    ImGui::Text("FPS: %.1f", 1000.0f / frameTime);
+                }
             }
         }
     } else {

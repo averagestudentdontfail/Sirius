@@ -359,4 +359,7 @@ CMakeFiles/Sirius.dir/src/UI/UIManager.cpp.o: \
  /usr/include/strings.h \
  /home/send2/.projects/Sirius/deps/imgui/backends/imgui_impl_glfw.h \
  /home/send2/.projects/Sirius/deps/imgui/backends/imgui_impl_opengl3.h \
- /home/send2/.projects/Sirius/deps/glfw/include/GLFW/glfw3.h
+ /home/send2/.projects/Sirius/deps/glfw/include/GLFW/glfw3.h \
+ /usr/include/c++/13/chrono /usr/include/c++/13/bits/chrono.h \
+ /usr/include/c++/13/ratio /usr/include/c++/13/ctime \
+ /usr/include/c++/13/bits/parse_numbers.h

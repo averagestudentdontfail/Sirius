@@ -1,0 +1,12 @@
+//wsl.localhost/Ubuntu/home/send2/.projects/Sirius/build-Windows/CMakeFiles/Sirius.dir
+//wsl.localhost/Ubuntu/home/send2/.projects/Sirius/build-Windows/CMakeFiles/MinkowskiMetric.dir
+//wsl.localhost/Ubuntu/home/send2/.projects/Sirius/build-Windows/CMakeFiles/INSTALL.dir
+//wsl.localhost/Ubuntu/home/send2/.projects/Sirius/build-Windows/CMakeFiles/ALL_BUILD.dir
+//wsl.localhost/Ubuntu/home/send2/.projects/Sirius/build-Windows/CMakeFiles/ZERO_CHECK.dir
+//wsl.localhost/Ubuntu/home/send2/.projects/Sirius/build-Windows/deps/glfw/CMakeFiles/uninstall.dir
+//wsl.localhost/Ubuntu/home/send2/.projects/Sirius/build-Windows/deps/glfw/CMakeFiles/INSTALL.dir
+//wsl.localhost/Ubuntu/home/send2/.projects/Sirius/build-Windows/deps/glfw/CMakeFiles/ALL_BUILD.dir
+//wsl.localhost/Ubuntu/home/send2/.projects/Sirius/build-Windows/deps/glfw/src/CMakeFiles/glfw.dir
+//wsl.localhost/Ubuntu/home/send2/.projects/Sirius/build-Windows/deps/glfw/src/CMakeFiles/update_mappings.dir
+//wsl.localhost/Ubuntu/home/send2/.projects/Sirius/build-Windows/deps/glfw/src/CMakeFiles/INSTALL.dir
+//wsl.localhost/Ubuntu/home/send2/.projects/Sirius/build-Windows/deps/glfw/docs/CMakeFiles/INSTALL.dir
