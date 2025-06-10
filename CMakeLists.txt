@@ -121,7 +121,7 @@ if(BUILD_POCL AND UNIX AND NOT APPLE)
     # Set OpenCL paths
     set(OpenCL_FOUND TRUE)
     set(OpenCL_INCLUDE_DIRS "${POCL_INSTALL_DIR}/include")
-    set(OpenCL_LIBRARIES "${POCL_INSTALL_DIR}/lib/libOpenCL.so")
+    set(OpenCL_LIBRARIES "${POCL_INSTALL_DIR}/lib/libpocl.so")
     set(POCL_LIBRARY "${POCL_INSTALL_DIR}/lib/libpocl.so")
     
     message(STATUS "POCL will be built to: ${POCL_INSTALL_DIR}")
