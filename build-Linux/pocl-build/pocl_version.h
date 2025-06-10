@@ -1,2 +1,0 @@
-#define POCL_VERSION_BASE "7.0"
-#define POCL_VERSION_FULL "7.0"
