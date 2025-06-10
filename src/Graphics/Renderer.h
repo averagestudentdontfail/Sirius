@@ -3,19 +3,18 @@
 #include <vector>
 #include <string>
 #include <memory>
-#include "Math/Vec.h"   // For Vec4 type
+#include "Math/Vec.h"
 
 // Forward-declare OpenCL types
 namespace cl { class Context; class CommandQueue; class Kernel; class Buffer; class Image2D; class Device; }
 class IMetric;
 
-// The C++ equivalent of the OpenCL Ray struct
+// Ray struct matching the OpenCL kernel
 struct Ray {
     Vec4 pos;
     Vec4 vel;
     int terminated;
     int sx, sy;
-    // Padding to ensure alignment with OpenCL's float4
     int padding1, padding2;
 };
 
@@ -24,10 +23,7 @@ public:
     Renderer(int width, int height);
     ~Renderer();
 
-    // The main render function
     void render(IMetric* metric);
-    
-    // Returns the OpenGL handle for the output texture to be displayed
     unsigned int getOutputTexture() const;
 
 private:
@@ -45,10 +41,15 @@ private:
     std::unique_ptr<cl::Kernel> m_Kernel;
     std::unique_ptr<cl::Buffer> m_RayBuffer;
     std::unique_ptr<cl::Image2D> m_OutputImage;
-    std::unique_ptr<cl::Device> m_Device; // Store device for kernel compilation
+    std::unique_ptr<cl::Device> m_Device;
     
-    // OpenGL texture for output
+    // OpenGL texture
     unsigned int m_OutputTextureID;
+
+    // Platform detection
+    bool m_IsPOCL = false;
+    bool m_IsNVIDIA = false;
+    bool m_HasRealOpenCL30 = false;
 
     std::vector<Ray> m_InitialRays;
     std::string m_LastMetricName;
