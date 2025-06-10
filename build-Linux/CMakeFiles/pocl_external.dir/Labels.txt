@@ -1,0 +1,13 @@
+# Target labels
+ pocl_external
+# Source files and their labels
+/home/send2/.projects/Sirius/build-Linux/CMakeFiles/pocl_external
+/home/send2/.projects/Sirius/build-Linux/CMakeFiles/pocl_external.rule
+/home/send2/.projects/Sirius/build-Linux/CMakeFiles/pocl_external-complete.rule
+/home/send2/.projects/Sirius/build-Linux/pocl_external-prefix/src/pocl_external-stamp/pocl_external-build.rule
+/home/send2/.projects/Sirius/build-Linux/pocl_external-prefix/src/pocl_external-stamp/pocl_external-configure.rule
+/home/send2/.projects/Sirius/build-Linux/pocl_external-prefix/src/pocl_external-stamp/pocl_external-download.rule
+/home/send2/.projects/Sirius/build-Linux/pocl_external-prefix/src/pocl_external-stamp/pocl_external-install.rule
+/home/send2/.projects/Sirius/build-Linux/pocl_external-prefix/src/pocl_external-stamp/pocl_external-mkdir.rule
+/home/send2/.projects/Sirius/build-Linux/pocl_external-prefix/src/pocl_external-stamp/pocl_external-patch.rule
+/home/send2/.projects/Sirius/build-Linux/pocl_external-prefix/src/pocl_external-stamp/pocl_external-update.rule

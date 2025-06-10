@@ -1,0 +1,2 @@
+/usr/bin/ar qc libpoclu.a CMakeFiles/poclu.dir/bswap.c.o CMakeFiles/poclu.dir/misc.c.o
+/usr/bin/ranlib libpoclu.a
