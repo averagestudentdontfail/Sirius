@@ -16,10 +16,9 @@ elseif(UNIX AND NOT APPLE)
     add_definitions(-D_GNU_SOURCE)
 endif()
 
-# === Find System Dependencies ===
+# === Find System Dependencies (excluding OpenCL, which we will build) ===
 find_package(OpenGL REQUIRED)
 find_package(Threads REQUIRED)
-find_package(OpenCL REQUIRED) # Always find and link against the system ICD loader
 
 # === Add Subdirectories for Dependencies ===
 add_subdirectory(deps/glfw)
@@ -42,6 +41,48 @@ add_executable(Sirius
     deps/imgui/backends/imgui_impl_opengl3.cpp
 )
 
+# === POCL Build Section ===
+# This section builds POCL as a standalone library suitable for direct linking.
+if(BUILD_POCL AND UNIX AND NOT APPLE)
+    message(STATUS "=== POCL build is enabled (standalone mode) ===")
+    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/deps/pocl/CMakeLists.txt")
+        message(FATAL_ERROR "Pocl submodule not found. Please run: git submodule update --init --recursive")
+    endif()
+
+    find_program(LLVM_CONFIG llvm-config-16 llvm-config-15 llvm-config-14 llvm-config)
+    if(NOT LLVM_CONFIG)
+        message(FATAL_ERROR "LLVM not found! Install a compatible version (e.g., sudo apt install llvm-16-dev clang-16)")
+    endif()
+
+    set(POCL_BUILD_DIR "${CMAKE_BINARY_DIR}/pocl-build")
+    set(POCL_INSTALL_DIR "${CMAKE_BINARY_DIR}/pocl-install")
+
+    include(ExternalProject)
+    ExternalProject_Add(pocl_external
+        SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/deps/pocl"
+        BINARY_DIR "${POCL_BUILD_DIR}"
+        INSTALL_DIR "${POCL_INSTALL_DIR}"
+        CMAKE_ARGS
+            -DCMAKE_INSTALL_PREFIX=${POCL_INSTALL_DIR}
+            -DCMAKE_BUILD_TYPE=Release
+            -DWITH_LLVM_CONFIG=${LLVM_CONFIG}
+            -DENABLE_ICD=OFF # This is the key change to build a standalone library
+            -DENABLE_EXAMPLES=OFF
+            -DENABLE_TESTS=OFF
+        BUILD_COMMAND ${CMAKE_COMMAND} --build . --parallel
+        LOG_CONFIGURE ${POCL_VERBOSE}
+        LOG_BUILD ${POCL_VERBOSE}
+        LOG_INSTALL ${POCL_VERBOSE}
+        TIMEOUT 3600
+    )
+
+    # Ensure pocl is built before the main application
+    add_dependencies(Sirius pocl_external)
+
+    # Add the include directory from our custom POCL build
+    include_directories("${POCL_INSTALL_DIR}/include")
+endif()
+
 # === Include Directories ===
 include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
@@ -51,7 +92,6 @@ include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/glm"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/tinyobjloader"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/glad/include"
-    ${OpenCL_INCLUDE_DIRS}
 )
 
 # === Compiler Definitions and Flags ===
@@ -71,74 +111,23 @@ target_link_libraries(Sirius PRIVATE
     glfw
     OpenGL::GL
     Threads::Threads
-    OpenCL::OpenCL # Link to the system ICD loader found by find_package
 )
+
+if(BUILD_POCL AND UNIX AND NOT APPLE)
+    # Link directly to the libpocl.so we just built
+    target_link_libraries(Sirius PRIVATE "${POCL_INSTALL_DIR}/lib/libpocl.so")
+
+    # Set the RPATH. This tells the executable where to find libpocl.so at runtime,
+    # eliminating the need for the environment script.
+    set_target_properties(Sirius PROPERTIES
+        BUILD_RPATH "${POCL_INSTALL_DIR}/lib"
+        INSTALL_RPATH "${POCL_INSTALL_DIR}/lib"
+    )
+endif()
+
 if(UNIX AND NOT APPLE)
     target_link_libraries(Sirius PRIVATE dl) # Dynamic linking library
 endif()
-
-
-# === POCL Build Section (if enabled) ===
-if(BUILD_POCL AND UNIX AND NOT APPLE)
-    message(STATUS "=== POCL build is enabled ===")
-    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/deps/pocl/CMakeLists.txt")
-        message(FATAL_ERROR "Pocl submodule not found. Please run: git submodule update --init --recursive")
-    endif()
-
-    find_program(LLVM_CONFIG llvm-config-16 llvm-config-15 llvm-config-14 llvm-config)
-    if(NOT LLVM_CONFIG)
-        message(FATAL_ERROR "LLVM not found! Install a compatible version (e.g., sudo apt install llvm-16-dev clang-16)")
-    endif()
-
-    set(POCL_BUILD_DIR "${CMAKE_BINARY_DIR}/pocl-build")
-    set(POCL_INSTALL_DIR "${CMAKE_BINARY_DIR}/pocl-install")
-    
-    include(ExternalProject)
-    ExternalProject_Add(pocl_external
-        SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/deps/pocl"
-        BINARY_DIR "${POCL_BUILD_DIR}"
-        INSTALL_DIR "${POCL_INSTALL_DIR}"
-        CMAKE_ARGS
-            -DCMAKE_INSTALL_PREFIX=${POCL_INSTALL_DIR}
-            -DCMAKE_BUILD_TYPE=Release
-            -DWITH_LLVM_CONFIG=${LLVM_CONFIG}
-            -DENABLE_ICD=ON
-            -DENABLE_EXAMPLES=OFF
-            -DENABLE_TESTS=OFF
-        BUILD_COMMAND ${CMAKE_COMMAND} --build . --parallel
-        LOG_CONFIGURE ${POCL_VERBOSE}
-        LOG_BUILD ${POCL_VERBOSE}
-        LOG_INSTALL ${POCL_VERBOSE}
-        TIMEOUT 3600
-    )
-
-    # Ensure pocl is built before the main application
-    add_dependencies(Sirius pocl_external)
-
-    # --- Post-Build Steps for POCL ---
-    # Create the ICD file that points to our new libpocl.so
-    set(ICD_DIR "${CMAKE_BINARY_DIR}/etc/OpenCL/vendors")
-    set(ICD_FILE "${ICD_DIR}/pocl.icd")
-    add_custom_command(TARGET Sirius POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory "${ICD_DIR}"
-        COMMAND ${CMAKE_COMMAND} -E echo "${POCL_INSTALL_DIR}/lib/libpocl.so" > "${ICD_FILE}"
-        COMMENT "Setting up POCL ICD configuration"
-        DEPENDS pocl_external
-    )
-    
-    # Create the environment setup script
-    set(ENV_SETUP_SCRIPT "${CMAKE_BINARY_DIR}/setup_pocl_env.sh")
-    file(GENERATE OUTPUT "${ENV_SETUP_SCRIPT}"
-        CONTENT "#!/bin/bash\n# This script configures the environment to use the locally built POCL.\nexport OPENCL_VENDOR_PATH=\"${ICD_DIR}\"\nexport LD_LIBRARY_PATH=\"${POCL_INSTALL_DIR}/lib:$LD_LIBRARY_PATH\"\nexport POCL_DEVICES=cpu\necho \"✅ POCL environment configured for this session!\"\necho \"   OPENCL_VENDOR_PATH=${ICD_DIR}\"\necho \"   To run the app: ./Sirius\"\n"
-    )
-    
-    # Make the setup script executable
-    add_custom_command(TARGET Sirius POST_BUILD
-        COMMAND chmod +x "${ENV_SETUP_SCRIPT}"
-        COMMENT "Making POCL environment script executable"
-    )
-endif()
-
 
 # === Plugins ===
 set(PLUGIN_OUTPUT_PATH "${CMAKE_BINARY_DIR}/plugins")
@@ -154,20 +143,11 @@ set_target_properties(MinkowskiMetric PROPERTIES
 # === Resource Copying ===
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/kernels DESTINATION ${CMAKE_BINARY_DIR})
 
-
 # === Final Status Messages ===
 message(STATUS "")
 message(STATUS "=== Sirius Build Configuration Summary ===")
-if(BUILD_POCL AND UNIX AND NOT APPLE)
-    message(STATUS "OpenCL: Building POCL from source. Link will be to system ICD.")
-    message(STATUS "---")
-    message(STATUS "Build & Run Instructions:")
-    message(STATUS "1. Run: make -j$(nproc)")
-    message(STATUS "2. After build, run: source setup_pocl_env.sh")
-    message(STATUS "3. Run the application: ./Sirius")
-    message(STATUS "---")
-else()
-    message(STATUS "OpenCL: Using system library found at: ${OpenCL_LIBRARIES}")
-    message(STATUS "Build & Run: make -j$(nproc) && ./Sirius")
-endif()
+message(STATUS "Build & Run Instructions:")
+message(STATUS "1. Run: make -j$(nproc)")
+message(STATUS "2. Run the application directly: ./Sirius")
+message(STATUS "(The setup_pocl_env.sh script is no longer needed)")
 message(STATUS "=========================================")
