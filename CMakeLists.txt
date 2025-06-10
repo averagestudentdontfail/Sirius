@@ -66,7 +66,7 @@ if(BUILD_POCL AND UNIX AND NOT APPLE)
             -DCMAKE_INSTALL_PREFIX=${POCL_INSTALL_DIR}
             -DCMAKE_BUILD_TYPE=Release
             -DWITH_LLVM_CONFIG=${LLVM_CONFIG}
-            -DENABLE_ICD=OFF # This is the key change to build a standalone library
+            -DENABLE_ICD=OFF # Build a standalone library
             -DENABLE_EXAMPLES=OFF
             -DENABLE_TESTS=OFF
         BUILD_COMMAND ${CMAKE_COMMAND} --build . --parallel
@@ -114,11 +114,10 @@ target_link_libraries(Sirius PRIVATE
 )
 
 if(BUILD_POCL AND UNIX AND NOT APPLE)
-    # Link directly to the libpocl.so we just built
-    target_link_libraries(Sirius PRIVATE "${POCL_INSTALL_DIR}/lib/libpocl.so")
+    # Link directly to the libOpenCL.so we just built
+    target_link_libraries(Sirius PRIVATE "${POCL_INSTALL_DIR}/lib/libOpenCL.so")
 
-    # Set the RPATH. This tells the executable where to find libpocl.so at runtime,
-    # eliminating the need for the environment script.
+    # Set the RPATH. This tells the executable where to find the library at runtime.
     set_target_properties(Sirius PROPERTIES
         BUILD_RPATH "${POCL_INSTALL_DIR}/lib"
         INSTALL_RPATH "${POCL_INSTALL_DIR}/lib"
@@ -144,10 +143,6 @@ set_target_properties(MinkowskiMetric PROPERTIES
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/kernels DESTINATION ${CMAKE_BINARY_DIR})
 
 # === Final Status Messages ===
-message(STATUS "")
-message(STATUS "=== Sirius Build Configuration Summary ===")
 message(STATUS "Build & Run Instructions:")
 message(STATUS "1. Run: make -j$(nproc)")
 message(STATUS "2. Run the application directly: ./Sirius")
-message(STATUS "(The setup_pocl_env.sh script is no longer needed)")
-message(STATUS "=========================================")
