@@ -15,24 +15,12 @@
 #endif
 
 // OpenCL 3.0 includes
-#ifdef _WIN32
-    #define CL_HPP_ENABLE_EXCEPTIONS
-    #define CL_HPP_TARGET_OPENCL_VERSION 300
-    #define CL_HPP_MINIMUM_OPENCL_VERSION 200
-    #ifdef _MSC_VER
-        #pragma warning(push)
-        #pragma warning(disable: 4996)
-    #endif
-    #include <CL/opencl.hpp>
-    #ifdef _MSC_VER
-        #pragma warning(pop)
-    #endif
-#else
-    #define CL_HPP_ENABLE_EXCEPTIONS
-    #define CL_HPP_TARGET_OPENCL_VERSION 300
-    #define CL_HPP_MINIMUM_OPENCL_VERSION 200
-    #include <CL/opencl.hpp>
-#endif
+#define CL_HPP_ENABLE_EXCEPTIONS
+#define CL_HPP_MINIMUM_OPENCL_VERSION 200
+#define CL_HPP_TARGET_OPENCL_VERSION 300
+// It's crucial to include the C header first for the C++ bindings to work correctly
+#include <CL/cl.h>
+#include <CL/opencl.hpp>
 
 std::string loadKernelSource(const std::string& path) {
     std::ifstream file(path);

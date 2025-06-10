@@ -1,1 +1,0 @@
-/usr/bin/cc -O3 -DNDEBUG  -pie CMakeFiles/poclcc.dir/poclcc.c.o -o poclcc  ../poclu/libpoclu.a -lOpenCL 
