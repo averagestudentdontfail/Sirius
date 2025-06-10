@@ -5,20 +5,53 @@ project(Sirius LANGUAGES CXX C)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# --- Build Options ---
-option(BUILD_POCL "Build POCL from source" ON)
-option(POCL_VERBOSE "Enable verbose POCL build output" OFF)
-
-# --- Platform Definitions ---
+# --- Platform-Specific Setup ---
 if(WIN32)
+    set(IS_WINDOWS TRUE)
     add_definitions(-D_WIN32 -DNOMINMAX -D_USE_MATH_DEFINES)
-elseif(UNIX AND NOT APPLE)
+else()
+    set(IS_WINDOWS FALSE)
     add_definitions(-D_GNU_SOURCE)
 endif()
 
-# === Find System Dependencies (excluding OpenCL, which we will build) ===
+# --- Build Options (Linux-only for now) ---
+if(NOT IS_WINDOWS)
+    option(BUILD_POCL "Build POCL from source (Linux only)" ON)
+    option(POCL_VERBOSE "Enable verbose POCL build output" OFF)
+endif()
+
+# === Find System Dependencies ===
 find_package(OpenGL REQUIRED)
 find_package(Threads REQUIRED)
+
+if(IS_WINDOWS)
+    # On Windows, find the system OpenCL SDK (e.g., from NVIDIA CUDA Toolkit)
+    message(STATUS "Windows: Looking for OpenCL SDK...")
+    find_package(OpenCL)
+    if(NOT OpenCL_FOUND)
+        message(STATUS "find_package(OpenCL) failed, searching manually...")
+        find_path(OpenCL_INCLUDE_DIRS CL/cl.h
+            PATHS "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v*/include"
+                  "C:/Program Files (x86)/Intel/OpenCL SDK/include"
+                  "$ENV{CUDA_PATH}/include"
+        )
+        find_library(OpenCL_LIBRARIES OpenCL
+            PATHS "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v*/lib/x64"
+                  "C:/Program Files (x86)/Intel/OpenCL SDK/lib/x64"
+                  "$ENV{CUDA_PATH}/lib/x64"
+        )
+        include(FindPackageHandleStandardArgs)
+        find_package_handle_standard_args(OpenCL DEFAULT_MSG OpenCL_LIBRARIES OpenCL_INCLUDE_DIRS)
+    endif()
+    if(NOT OpenCL_FOUND)
+        message(FATAL_ERROR "OpenCL SDK not found on Windows. Please install the NVIDIA CUDA Toolkit or another OpenCL SDK.")
+    endif()
+else()
+    # On Linux, use the existing logic for finding system OpenCL or building POCL
+    if(NOT BUILD_POCL)
+        find_package(OpenCL REQUIRED)
+    endif()
+endif()
 
 # === Add Subdirectories for Dependencies ===
 add_subdirectory(deps/glfw)
@@ -41,48 +74,6 @@ add_executable(Sirius
     deps/imgui/backends/imgui_impl_opengl3.cpp
 )
 
-# === POCL Build Section ===
-# This section builds POCL as a standalone library suitable for direct linking.
-if(BUILD_POCL AND UNIX AND NOT APPLE)
-    message(STATUS "=== POCL build is enabled (standalone mode) ===")
-    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/deps/pocl/CMakeLists.txt")
-        message(FATAL_ERROR "Pocl submodule not found. Please run: git submodule update --init --recursive")
-    endif()
-
-    find_program(LLVM_CONFIG llvm-config-16 llvm-config-15 llvm-config-14 llvm-config)
-    if(NOT LLVM_CONFIG)
-        message(FATAL_ERROR "LLVM not found! Install a compatible version (e.g., sudo apt install llvm-16-dev clang-16)")
-    endif()
-
-    set(POCL_BUILD_DIR "${CMAKE_BINARY_DIR}/pocl-build")
-    set(POCL_INSTALL_DIR "${CMAKE_BINARY_DIR}/pocl-install")
-
-    include(ExternalProject)
-    ExternalProject_Add(pocl_external
-        SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/deps/pocl"
-        BINARY_DIR "${POCL_BUILD_DIR}"
-        INSTALL_DIR "${POCL_INSTALL_DIR}"
-        CMAKE_ARGS
-            -DCMAKE_INSTALL_PREFIX=${POCL_INSTALL_DIR}
-            -DCMAKE_BUILD_TYPE=Release
-            -DWITH_LLVM_CONFIG=${LLVM_CONFIG}
-            -DENABLE_ICD=OFF # Build a standalone library
-            -DENABLE_EXAMPLES=OFF
-            -DENABLE_TESTS=OFF
-        BUILD_COMMAND ${CMAKE_COMMAND} --build . --parallel
-        LOG_CONFIGURE ${POCL_VERBOSE}
-        LOG_BUILD ${POCL_VERBOSE}
-        LOG_INSTALL ${POCL_VERBOSE}
-        TIMEOUT 3600
-    )
-
-    # Ensure pocl is built before the main application
-    add_dependencies(Sirius pocl_external)
-
-    # Add the include directory from our custom POCL build
-    include_directories("${POCL_INSTALL_DIR}/include")
-endif()
-
 # === Include Directories ===
 include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
@@ -93,16 +84,22 @@ include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/tinyobjloader"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/glad/include"
 )
+if(OpenCL_FOUND OR (NOT IS_WINDOWS AND BUILD_POCL))
+    # Add OpenCL includes
+    target_include_directories(Sirius PRIVATE ${OpenCL_INCLUDE_DIRS})
+endif()
 
 # === Compiler Definitions and Flags ===
-target_compile_definitions(Sirius PRIVATE
-    CL_HPP_TARGET_OPENCL_VERSION=300
-    CL_HPP_MINIMUM_OPENCL_VERSION=200
-)
+if(OpenCL_FOUND OR (NOT IS_WINDOWS AND BUILD_POCL))
+    target_compile_definitions(Sirius PRIVATE
+        CL_HPP_TARGET_OPENCL_VERSION=300
+        CL_HPP_MINIMUM_OPENCL_VERSION=200
+    )
+endif()
 
-if(WIN32 AND MSVC)
-    target_compile_options(Sirius PRIVATE /wd4996 /wd4267 /wd4244)
-elseif(UNIX)
+if(IS_WINDOWS)
+    target_compile_options(Sirius PRIVATE /W4 /wd4996 /wd4267 /wd4244)
+else()
     target_compile_options(Sirius PRIVATE -Wall -Wextra -O3)
 endif()
 
@@ -113,36 +110,62 @@ target_link_libraries(Sirius PRIVATE
     Threads::Threads
 )
 
-if(BUILD_POCL AND UNIX AND NOT APPLE)
-    # Link directly to the libOpenCL.so we just built
-    target_link_libraries(Sirius PRIVATE "${POCL_INSTALL_DIR}/lib/libOpenCL.so")
-
-    # Set the RPATH. This tells the executable where to find the library at runtime.
-    set_target_properties(Sirius PROPERTIES
-        BUILD_RPATH "${POCL_INSTALL_DIR}/lib"
-        INSTALL_RPATH "${POCL_INSTALL_DIR}/lib"
-    )
+if(IS_WINDOWS)
+    if(OpenCL_FOUND)
+        target_link_libraries(Sirius PRIVATE ${OpenCL_LIBRARIES})
+    endif()
+else() # Linux linking logic
+    if(BUILD_POCL)
+        # Link directly to the libOpenCL.so we built with POCL
+        add_dependencies(Sirius pocl_external) # Make sure POCL builds first
+        target_link_libraries(Sirius PRIVATE "${POCL_INSTALL_DIR}/lib/libOpenCL.so")
+        set_target_properties(Sirius PROPERTIES BUILD_RPATH "${POCL_INSTALL_DIR}/lib")
+    else()
+        # Link to system OpenCL if not building POCL
+        target_link_libraries(Sirius PRIVATE OpenCL::OpenCL)
+    endif()
+    target_link_libraries(Sirius PRIVATE dl) # Dynamic linking library
 endif()
 
-if(UNIX AND NOT APPLE)
-    target_link_libraries(Sirius PRIVATE dl) # Dynamic linking library
+# === POCL Build Section (Linux only) ===
+if(NOT IS_WINDOWS AND BUILD_POCL)
+    set(POCL_BUILD_DIR "${CMAKE_BINARY_DIR}/pocl-build")
+    set(POCL_INSTALL_DIR "${CMAKE_BINARY_DIR}/pocl-install")
+    include(ExternalProject)
+    ExternalProject_Add(pocl_external
+        SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/deps/pocl"
+        BINARY_DIR "${POCL_BUILD_DIR}"
+        INSTALL_DIR "${POCL_INSTALL_DIR}"
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${POCL_INSTALL_DIR} -DCMAKE_BUILD_TYPE=Release -DWITH_LLVM_CONFIG=${LLVM_CONFIG} -DENABLE_ICD=OFF -DENABLE_EXAMPLES=OFF -DENABLE_TESTS=OFF
+        BUILD_COMMAND ${CMAKE_COMMAND} --build . --parallel
+        LOG_CONFIGURE ${POCL_VERBOSE} LOG_BUILD ${POCL_VERBOSE} LOG_INSTALL ${POCL_VERBOSE}
+        TIMEOUT 3600
+    )
+    target_include_directories(Sirius PRIVATE "${POCL_INSTALL_DIR}/include")
 endif()
 
 # === Plugins ===
 set(PLUGIN_OUTPUT_PATH "${CMAKE_BINARY_DIR}/plugins")
+if(IS_WINDOWS)
+    set(PLUGIN_OUTPUT_PATH "${CMAKE_BINARY_DIR}/plugins/Release") # For multi-config generators
+endif()
 file(MAKE_DIRECTORY ${PLUGIN_OUTPUT_PATH})
 
 add_library(MinkowskiMetric SHARED plugins/Minkowski/MinkowskiMetric.cpp)
 target_include_directories(MinkowskiMetric PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
-set_target_properties(MinkowskiMetric PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY "${PLUGIN_OUTPUT_PATH}"
-    RUNTIME_OUTPUT_DIRECTORY "${PLUGIN_OUTPUT_PATH}"
-)
+set_target_properties(MinkowskiMetric PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${PLUGIN_OUTPUT_PATH}" RUNTIME_OUTPUT_DIRECTORY "${PLUGIN_OUTPUT_PATH}")
 
 # === Resource Copying ===
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/kernels DESTINATION ${CMAKE_BINARY_DIR})
 
 # === Final Status Messages ===
 message(STATUS "Build & Run Instructions:")
-message(STATUS "1. Run: make -j$(nproc)")
-message(STATUS "2. Run the application directly: ./Sirius")
+if(IS_WINDOWS)
+    message(STATUS "1. Open this project in Visual Studio and build the 'Sirius' target.")
+    message(STATUS "2. Or run: cmake --build . --config Release")
+    message(STATUS "3. The executable will be in the 'Release' subfolder.")
+else()
+    message(STATUS "1. Run: make -j$(nproc)")
+    message(STATUS "2. Run the application directly: ./Sirius")
+endif()
+message(STATUS "=========================================")
